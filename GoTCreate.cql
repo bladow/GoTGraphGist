@@ -26,6 +26,7 @@ MERGE (:Group {name:"Small Council"});
 MERGE (:Group {name:"Kingsguard"});
 MERGE (:Group {name:"Court"});
 MERGE (:Group {name:"The Faith"});
+MERGE (:Group {name:"R'hllor, the Lord of Light"});
 MERGE (:Group {name:"Lords of the Crownlands"});
 
 // CREATE honors
@@ -62,6 +63,10 @@ MERGE (:Honor {title:"Voice of the Seven on Earth"});
 MERGE (:Honor {title:"Lord of Duskendale"});
 MERGE (:Honor {title:"Castellan of the Dun Fort"});
 MERGE (:Honor {title:"Lady of Stokeworth"});
+MERGE (:Honor {title:"Lord of Dragonstone"});
+MERGE (:Honor {title:"King of Westeros"});
+MERGE (:Honor {title:"The Red Woman"});
+MERGE (:Honor {title:""});
 
 
 // CREATE animals
@@ -160,7 +165,117 @@ MERGE (:Person {name:"Lollys Stokeworth"});
 MERGE (:Person {name:"Tyrion Tanner"});
 MERGE (:Person {name:"Bronn of the Blackwater"});
 MERGE (:Person {name:"Maester Frenken"});
+MERGE (:Person {name:"Stannis Baratheon"});
+MERGE (:Person {name:"Steffon Baratheon",alive:false});
+MERGE (:Person {name:"Cassana Estermont",alive:false});
+MERGE (:Person {name:"Melisandre of Asshai"});
+MERGE (:Person {name:"Richard Horpe"});
+MERGE (:Person {name:"Godry Farring"});
+MERGE (:Person {name:"Justin Massey"});
+MERGE (:Person {name:"Robin Peasebury"});
+MERGE (:Person {name:"Harwood Fell"});
+MERGE (:Person {name:"Clayton Suggs"});
+MERGE (:Person {name:"Corliss Penny"});
+MERGE (:Person {name:"William Foxglove"});
+MERGE (:Person {name:"Humfrey Clifton"});
+MERGE (:Person {name:"Ormund Wylde"});
+MERGE (:Person {name:"Harys Cobb"});
+//--
+MERGE (:Person {name:""});
 
+// Stannis Sworn Swords
+MATCH (stannis:Person),(sword:Person)
+WHERE stannis.name = "Stannis Baratheon" AND (
+        sword.name = "Richard Horpe" OR
+        sword.name = "Godry Farring" OR
+        sword.name = "Justin Massey" OR
+        sword.name = "Robin Peasebury" OR
+        sword.name = "Harwood Fell" OR
+        sword.name = "Clayton Suggs" OR
+        sword.name = "Corliss Penny" OR
+        sword.name = "William Foxglove" OR
+        sword.name = "Humfrey Clifton" OR
+        sword.name = "Ormund Wylde" OR
+        sword.name = "Harys Cobb"
+    )
+MERGE (sword)-[:SWORN_SWORD_OF]->(stannis);
+
+MATCH (honor:Honor),(person:Person)
+WHERE honor.title= "Ser" AND (
+        person.name = "Richard Horpe" OR
+        person.name = "Godry Farring" OR
+        person.name = "Justin Massey" OR
+        person.name = "Clayton Suggs" OR
+        person.name = "Corliss Penny" OR
+        person.name = "William Foxglove" OR
+        person.name = "Humfrey Clifton" OR
+        person.name = "Ormund Wylde" OR
+        person.name = "Harys Cobb"
+    )
+MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+MATCH (honor:Honor),(person:Person),(faith:Group)
+WHERE honor.title= "Lord" AND 
+    faith.name = "R'hllor, the Lord of Light' AND (
+        person.name = "Robin Peasebury" OR
+        person.name = "Harwood Fell" 
+    )
+MERGE (person)-[:HOLDS_HONOR_OF]->(honor)
+MERGE (person)-[:FOLLOWER_OF]->(faith);
+
+// Melisandre of Asshai
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Melisandre of Asshai" AND 
+        honor.title = "The Red Woman" 
+MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+MATCH (person:Person), (advisor:Person),(faith:Group)
+WHERE person.name = "Stannis Baratheon" AND
+    advisor.name = "Melisandre of Asshai" AND
+    faith.name = "R'hllor, the Lord of Light'
+MERGE (advisor)-[:ADVISOR_TO]->(person)
+MERGE (advisor)-[:PRIEST_OF]->(faith);
+
+// Stannis Baratheon
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Stannis Baratheon" AND (
+        honor.title = "First of His Name" OR
+        honor.title = "King of Westeros" OR
+        honor.title = "Lord of Dragonstone" 
+    )
+MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+MATCH (house:House),(person:Person)
+WHERE house.name = "Baratheon" AND
+    person.name = "Stannis Baratheon" 
+MERGE (person)-[:OF_HOUSE]->(house);
+
+// Steffon Baratheon
+MATCH (house:House),(person:Person)
+WHERE house.name = "Baratheon" AND
+    person.name = "Steffon Baratheon" 
+MERGE (person)-[:OF_HOUSE]->(house);
+
+MATCH (husband:Person), (wife:Person),(child:Person)
+WHERE husband.name = "Steffon Baratheon" AND
+    wife.name = "Cassana Estermont" AND (
+        child.name = "Stannis Baratheon" OR
+        child.name = "Robert Barathon"
+    )
+MERGE (husband)-[:MARRIED_TO]->(wife)
+MERGE (child)-[:CHILD_OF]->(husband)
+MERGE (child)-[:CHILD_OF]->(wife);
+
+// Cassana Estermont
+MATCH (house:House),(person:Person)
+WHERE house.name = "Estermont" AND
+    person.name = "Cassana Estermont" 
+MERGE (person)-[:OF_HOUSE]->(house);
+
+MATCH (person:Person),(mhouse:House)
+WHERE person.name = "Cassana Estermont" AND
+    mhouse.name = "Baratheon"
+MERGE (person)-[:MARRIED_INTO_HOUSE]->(house);
 
 // Tommen Baratheon Relationships
 MATCH (person:Person),(honor:Honor)
