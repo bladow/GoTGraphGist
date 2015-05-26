@@ -4,6 +4,8 @@ MERGE (:House {name:"Baratheon"});
 MERGE (:House {name:"Tyrell"});
 MERGE (:House {name:"Lannister"});
 MERGE (:House {name:"Frey"});
+MERGE (:House {name:"Florent"});
+MERGE (:House {name:"Estermont"});
 
 
 // CREATE crimes
@@ -20,6 +22,7 @@ MERGE (:Place {name:"Sea"});
 MERGE (:Place {name:"King's Landing"});
 MERGE (:Place {name:"Summer Isles"});
 MERGE (:Place {name:"Stokeworth"});
+MERGE (:Place {name:"Eastwatch-by-the-Sea"});
 
 // CREATE groups
 MERGE (:Group {name:"Small Council"});
@@ -28,6 +31,7 @@ MERGE (:Group {name:"Court"});
 MERGE (:Group {name:"The Faith"});
 MERGE (:Group {name:"R'hllor, the Lord of Light"});
 MERGE (:Group {name:"Lords of the Crownlands"});
+MERGE (:Group {name:"Iron Bank of Braavos"});
 
 // CREATE honors
 MERGE (:Honor {title:"First of His Name"});
@@ -66,6 +70,12 @@ MERGE (:Honor {title:"Lady of Stokeworth"});
 MERGE (:Honor {title:"Lord of Dragonstone"});
 MERGE (:Honor {title:"King of Westeros"});
 MERGE (:Honor {title:"The Red Woman"});
+MERGE (:Honor {title:"Queen"});
+MERGE (:Honor {title:"Queen's Hand"});
+MERGE (:Honor {title:"Lord of the Rainwood"});
+MERGE (:Honor {title:"Admiral of the Narrow Sea"});
+MERGE (:Honor {title:"The Onion Knight"});
+MERGE (:Honor {title:"Master of the Valyrian"});
 MERGE (:Honor {title:""});
 
 
@@ -74,7 +84,7 @@ MERGE (:Animal {name:"Ser Pounce",type:"Kitten"});
 MERGE (:Animal {name:"Lady Whiskers",type:"Kitten"});
 MERGE (:Animal {name:"Boots",type:"Kitten"});
 
-// CREATE the  Family of the Boy King
+// CREATE the People
 MERGE (:Person {name:"Robert Baratheon", alive:false});
 MERGE (:Person {name:"Tommen Baratheon", age:8});
 MERGE (:Person {name:"Myrcella Baratheon", age:9});
@@ -180,8 +190,31 @@ MERGE (:Person {name:"William Foxglove"});
 MERGE (:Person {name:"Humfrey Clifton"});
 MERGE (:Person {name:"Ormund Wylde"});
 MERGE (:Person {name:"Harys Cobb"});
+MERGE (:Person {name:"Devan Seaworth"});
+MERGE (:Person {name:"Bryen Farring"});
+MERGE (:Person {name:"Mance Rayder"});
+MERGE (:Person {name:"The Wildling Prince"});
+MERGE (:Person {name:"Gilly"});
+MERGE (:Person {name:"The Abomination"});
+MERGE (:Person {name:"Craster",alive:false});
 //--
+MERGE (:Person {name:"Selyse Florent"});
+MERGE (:Person {name:"Shireen Baratheon"});
+MERGE (:Person {name:"Patchface"});
+MERGE (:Person {name:"Axell Florent"});
+MERGE (:Person {name:"Narbert Grandison"});
+MERGE (:Person {name:"Benethon Scales"});
+MERGE (:Person {name:"Patrek of King's Mountain"});
+MERGE (:Person {name:"Dorden the Dour"});
+MERGE (:Person {name:"Malgorn of Redpool"});
+MERGE (:Person {name:"Lambert Whitewater"});
+MERGE (:Person {name:"Perkin Follard"});
+MERGE (:Person {name:"Brus Buckler"});
+MERGE (:Person {name:"Davos Seaworth"});
+MERGE (:Person {name:"Salladhar Saan"});
+MERGE (:Person {name:"Tycho Nestoris"});
 MERGE (:Person {name:""});
+
 
 // List out all of the Houses and who belongs to them
 // House Baratheon
@@ -192,12 +225,22 @@ WHERE house.name = "Baratheon" AND (
         person.name = "Tommen Baratheon" OR
         person.name = "Joffrey Baratheon" OR
         person.name = "Myrcella Baratheon" OR
+        person.name = "Shireen Baratheon" OR
         spouse.name = "Cassana Estermont" OR
         spouse.name = "Margaery Tyrell" OR
+        spouse.name = "Selyse Florent" OR
         spouse.name = "Cersei Lannister"
     )
 MERGE (person)-[:OF_HOUSE]->(house)
 MERGE (spouse)-[:MARRIED_INTO_HOUSE]->(house);
+
+// House Florent
+MATCH (house:House),(person:Person)
+WHERE house.name = "Florent" AND (
+        person.name = "Selyse Florent" OR
+        person.name = "Axell Florent"
+    )
+MERGE (person)-[:OF_HOUSE]->(house);
 
 // House Estermont
 MATCH (house:House),(person:Person)
@@ -289,7 +332,28 @@ WHERE honor.title= "Ser" AND (
         person.name = "Osney Kettleblack" OR
         person.name = "Theodan Wells" OR
         person.name = "Balman Byrch" OR
-        person.name = "Bronn of the Blackwater"
+        person.name = "Bronn of the Blackwater" OR
+        person.name = "Narbert Grandison" OR
+        person.name = "Benethon Scales" OR
+        person.name = "Patrek of King's Mountain" OR
+        person.name = "Dorden the Dour" OR
+        person.name = "Malgorn of Redpool" OR
+        person.name = "Lambert Whitewater" OR
+        person.name = "Perkin Follard" OR
+        person.name = "Brus Buckler"
+    )
+MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// People with honorific "Squire" and no other title
+MATCH (honor:Honor),(person:Person)
+WHERE honor.title= "Squire" AND (
+        person.name = "Alyn Ambrose" OR
+        person.name = "Martyn Lannister" OR 
+        person.name = "Willem Frey" OR
+        person.name = "Tion Frey" OR
+        person.name = "Tyrek Lannister" OR
+        person.name = "Devan Seaworth" OR
+        person.name = "Bryen Farring"
     )
 MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
 
@@ -301,6 +365,113 @@ WHERE honor.title= "Lord" AND
     )
 MERGE (person)-[:HOLDS_HONOR_OF]->(honor)
 MERGE (person)-[:FOLLOWER_OF]->(faith);
+
+// People at Eastwatch
+MATCH (person:Person),(place:Place)
+WHERE place.name = "Eastwatch-by-the-Sea" AND (
+        person.name = "Selyse Florent" OR
+        person.name = "Shireen Baratheon" OR
+        person.name = "Patchface" OR
+        person.name = "Axell Florent" OR
+        person.name = "Narbert Grandison" OR
+        person.name = "Benethon Scales" OR
+        person.name = "Patrek of King's Mountain" OR
+        person.name = "Dorden the Dour" OR
+        person.name = "Malgorn of Redpool" OR
+        person.name = "Lambert Whitewater" OR
+        person.name = "Perkin Follard" OR
+        person.name = "Brus Buckler" OR
+        person.name = "Davos Seaworth" OR
+        person.name = "Salladhar Saan" OR
+        person.name = "Tycho Nestoris"
+    )
+MERGE (person)-[:CURRENTLY_AT]->(place);
+
+// Axell Florent
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Axell Florent" AND (
+        honor.title = "Ser" OR
+        honor.title = "Queen's Hand" 
+    )
+MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Shireen Baratheon
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Shireen Baratheon" AND 
+        honor.title = "Princess" 
+MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
+MATCH (person:Person),(fool:Person)
+WHERE person.name = "Shireen Baratheon" AND
+    fool.name = "Patchface"
+MERGE (fool)-[:FOOL_TO]->(person);
+
+// Tycho Nestoris
+MATCH (person:Person),(bank:Group)
+WHERE person.name = "Tycho Nestoris" AND 
+    bank.name = "Iron Bank of Braavos" 
+MERGE (person)-[:MEMBER_OF]->(bank);
+
+// Salladhar Saan
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Davos Seaworth" AND 
+    honor.title = "Master of the Valyrian"
+MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Davos Seaworth
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Davos Seaworth" AND (
+        honor.title = "Ser" OR
+        honor.title = "Lord of the Rainwood" OR
+        honor.title = "Admiral of the Narrow Sea" OR
+        honor.title = "Hand of the King" OR
+        honor.title = "The Onion Knight"
+    )
+MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Selyse Florent
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Selyse Florent" AND 
+        honor.title = "Queen" 
+MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+MATCH (person:Person),(sword:Person)
+WHERE person.name = "Selyse Florent" AND (
+        sword.name = "Narbert Grandison" OR
+        sword.name = "Benethon Scales" OR
+        sword.name = "Patrek of King's Mountain" OR
+        sword.name = "Dorden the Dour" OR
+        sword.name = "Malgorn of Redpool" OR
+        sword.name = "Lambert Whitewater" OR
+        sword.name = "Perkin Follard" OR
+        sword.name = "Brus Buckler"
+    )
+MERGE (sword)-[:SWORN_SWORD_OF]->(person);
+// Melisandre of Asshai
+
+// Gilly
+MATCH (child:Person),(mother:Person),(father:Person)
+WHERE child.name = "The Abomination" AND
+    mother.name = "Gilly" AND
+    father.name = "Craster"
+MERGE (child)-[:CHILD_OF]->(mother)
+MERGE (child)-[:CHILD_OF]->(father)
+MERGE (mother)-[:CHILD_OF]->(father);
+
+// The Wildling Prince
+MATCH (person:Person),(nurse:Person)
+WHERE person.name = "The Wildling Prince" AND
+    nurse.name = "Gilly"
+MERGE (nurse)-[:WET_NURSE_OF]->(person);
+
+// Mance Rayder
+MATCH (person:Person),(son:Person),(honor:Honor),(captor:Person)
+WHERE person.name = "Mance Rayder" AND
+    honor.title = "King-Beyond-the-Wall" AND
+    captor.name = "Stannis Baratheon" AND
+    son.name = "The Wildling Prince"
+MERGE (person)-[:HOLDS_HONOR_OF]->(honor)
+MERGE (person)-[:CAPTIVE_OF]->(captor)
+MERGE (son)-[:CHILD_OF]->(person);
 
 // Stannis Sworn Swords
 MATCH (stannis:Person),(sword:Person)
@@ -323,6 +494,14 @@ MATCH (person:Person),(honor:Honor)
 WHERE person.name = "Melisandre of Asshai" AND 
         honor.title = "The Red Woman" 
 MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Stannis Squires
+MATCH (person:Person),(squire:Person)
+WHERE person.name = "Stannis Baratheon" AND (
+        squire.name = "Devan Seaworth" OR
+        squire.name = "Bryen Farring"
+    )
+MERGE (squire)-[:SQUIRE_TO]->(person);
 
 MATCH (person:Person), (advisor:Person),(faith:Group)
 WHERE person.name = "Stannis Baratheon" AND
@@ -446,11 +625,6 @@ MERGE (person)-[:COUSIN_OF]->(cousin)
 MERGE (person)-[:COMPANION_TO]->(cousin);
 
 // Alyn Ambrose relationships
-MATCH (person:Person),(honor:Honor)
-WHERE person.name = "Alyn Ambrose" AND
-    honor.title = "Squire" 
-MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
-
 MATCH (p:Person),(b:Person)
 WHERE p.name = "Alyn Ambrose" AND
     b.name = "Elinor Tyrell"
@@ -598,10 +772,6 @@ WHERE person.name = "Willem Lannister" AND
 MERGE (person)-[:TWIN_TO]->(twin);
 
 // Martyn Lannister
-MATCH (person:Person),(honor:Honor)
-WHERE person.name = "Martyn Lannister" AND
-    honor.title = "Squire" 
-MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
 
 // Janei Lannister
 
@@ -638,18 +808,10 @@ MERGE (child)-[:CHILD_OF]->(husband);
 // Tywin Frey
 
 // Willem Frey
-MATCH (person:Person),(honor:Honor)
-WHERE person.name = "Willem Frey" AND
-    honor.title = "Squire" 
-MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
 
 // Lyonel Frey
 
 // Tion Frey
-MATCH (person:Person),(honor:Honor)
-WHERE person.name = "Tion Frey" AND
-    honor.title = "Squire" 
-MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
 
 // Red Walder Frey
 MATCH (person:Person),(honor:Honor)
@@ -673,10 +835,6 @@ MERGE (child)-[:CHILD_OF]->(mother);
 // Darlessa Marbrand
 
 // Tyrek Lannister
-MATCH (person:Person),(honor:Honor)
-WHERE person.name = "Tyrek Lannister" AND
-    honor.title = "Squire" 
-MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
 
 MATCH (wife:Person), (husband:Person)
 WHERE wife.name = "Ermesande Hayfor" AND
