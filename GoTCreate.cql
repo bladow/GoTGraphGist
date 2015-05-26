@@ -183,6 +183,125 @@ MERGE (:Person {name:"Harys Cobb"});
 //--
 MERGE (:Person {name:""});
 
+// List out all of the Houses and who belongs to them
+// House Baratheon
+MATCH (house:House),(person:Person),(spouse:Person)
+WHERE house.name = "Baratheon" AND (
+        person.name = "Stannis Baratheon" OR
+        person.name = "Steffon Baratheon" OR
+        person.name = "Tommen Baratheon" OR
+        person.name = "Joffrey Baratheon" OR
+        person.name = "Myrcella Baratheon" OR
+        spouse.name = "Cassana Estermont" OR
+        spouse.name = "Margaery Tyrell" OR
+        spouse.name = "Cersei Lannister"
+    )
+MERGE (person)-[:OF_HOUSE]->(house)
+MERGE (spouse)-[:MARRIED_INTO_HOUSE]->(house);
+
+// House Estermont
+MATCH (house:House),(person:Person)
+WHERE house.name = "Estermont" AND
+    person.name = "Cassana Estermont" 
+MERGE (person)-[:OF_HOUSE]->(house);
+
+// House Lannister
+MATCH (person:Person),(house:House),(spouse:Person)
+WHERE house.name = "Lannister" AND (
+        person.name = "Cersei Lannister" OR
+        person.name = "Jaime Lannister" OR
+        person.name = "Tyrion Lannister" OR
+        person.name = "Tywin Lannister" OR
+        person.name = "Kevan Lannister" OR
+        person.name = "Lancel Lannister" OR
+        person.name = "Willem Lannister" OR
+        person.name = "Martyn Lannister" OR
+        person.name = "Janei Lannister" OR
+        person.name = "Tygett Lannister" OR
+        person.name = "Tyrek Lannister" OR 
+        person.name = "Gerion Lannister" OR 
+        person.name = "Genna Lannister" OR
+        spouse.name = "Dorna Swyft" OR
+        spouse.name = "Darlessa Marbrand" OR
+        spouse.name = "Ermesande Hayford"
+    )
+MERGE (person)-[:OF_HOUSE]->(house)
+MERGE (spouse)-[:MARRIED_INTO_HOUSE]->(house);
+
+// House Frey
+MATCH (person:Person),(house:House),(spouse:Person)
+WHERE house.name = "Frey" AND (
+        person.name = "Emmon Frey" OR
+        person.name = "Tywin Frey" OR
+        person.name = "Willem Frey" OR
+        person.name = "Lyonel Frey" OR
+        person.name = "Tion Frey" OR
+        person.name = "Red Walder Frey" OR 
+        person.name = "Cleos Frey" OR
+        spouse.name = "Genna Lannister" 
+    )
+MERGE (person)-[:OF_HOUSE]->(house)
+MERGE (spouse)-[:MARRIED_INTO_HOUSE]->(house);
+
+// House Tyrell
+MATCH (person:Person),(house:House)
+WHERE house.name = "Tyrell" AND (
+        person.name = "Mace Tyrell" OR
+        person.name = "Loras Tyrell" OR
+        person.name = "Margaery Tyrell" OR
+        person.name = "Alla Tyrell" OR
+        person.name = "Elinor Tyrell" OR
+        person.name = "Megga Tyrell" 
+    )
+MERGE (person)-[:OF_HOUSE]->(house);
+
+
+// People with honorific "Ser" and no other title
+MATCH (honor:Honor),(person:Person)
+WHERE honor.title= "Ser" AND (
+        person.name = "Richard Horpe" OR
+        person.name = "Godry Farring" OR
+        person.name = "Justin Massey" OR
+        person.name = "Clayton Suggs" OR
+        person.name = "Corliss Penny" OR
+        person.name = "William Foxglove" OR
+        person.name = "Humfrey Clifton" OR
+        person.name = "Ormund Wylde" OR
+        person.name = "Harys Cobb" OR
+        person.name = "Emmon Frey" OR
+        person.name = "Cleos Frey" OR
+        person.name = "Tywin Frey" OR
+        person.name = "Lyonel Frey" OR
+        person.name = "Tygett Lannister" OR
+        person.name = "Meryn Trant" OR
+        person.name = "Boros Blount" OR
+        person.name = "Balon Swann" OR
+        person.name = "Osmund Kettleblack" OR
+        person.name = "Arys Oakheart" OR
+        person.name = "Osfryd Kettleblack" OR
+        person.name = "Mark Mullendore" OR
+        person.name = "Tallad the Tall" OR
+        person.name = "Lambert Turnberry" OR
+        person.name = "Bayard Norcross" OR
+        person.name = "Hugh Clifton" OR
+        person.name = "Horas Redwyne" OR
+        person.name = "Hobber Redwyne" OR
+        person.name = "Osney Kettleblack" OR
+        person.name = "Theodan Wells" OR
+        person.name = "Balman Byrch" OR
+        person.name = "Bronn of the Blackwater"
+    )
+MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+MATCH (honor:Honor),(person:Person),(faith:Group)
+WHERE honor.title= "Lord" AND 
+    faith.name = "R'hllor, the Lord of Light" AND (
+        person.name = "Robin Peasebury" OR
+        person.name = "Harwood Fell" 
+    )
+MERGE (person)-[:HOLDS_HONOR_OF]->(honor)
+MERGE (person)-[:FOLLOWER_OF]->(faith);
+
 // Stannis Sworn Swords
 MATCH (stannis:Person),(sword:Person)
 WHERE stannis.name = "Stannis Baratheon" AND (
@@ -199,30 +318,6 @@ WHERE stannis.name = "Stannis Baratheon" AND (
         sword.name = "Harys Cobb"
     )
 MERGE (sword)-[:SWORN_SWORD_OF]->(stannis);
-
-MATCH (honor:Honor),(person:Person)
-WHERE honor.title= "Ser" AND (
-        person.name = "Richard Horpe" OR
-        person.name = "Godry Farring" OR
-        person.name = "Justin Massey" OR
-        person.name = "Clayton Suggs" OR
-        person.name = "Corliss Penny" OR
-        person.name = "William Foxglove" OR
-        person.name = "Humfrey Clifton" OR
-        person.name = "Ormund Wylde" OR
-        person.name = "Harys Cobb"
-    )
-MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
-
-MATCH (honor:Honor),(person:Person),(faith:Group)
-WHERE honor.title= "Lord" AND 
-    faith.name = "R'hllor, the Lord of Light' AND (
-        person.name = "Robin Peasebury" OR
-        person.name = "Harwood Fell" 
-    )
-MERGE (person)-[:HOLDS_HONOR_OF]->(honor)
-MERGE (person)-[:FOLLOWER_OF]->(faith);
-
 // Melisandre of Asshai
 MATCH (person:Person),(honor:Honor)
 WHERE person.name = "Melisandre of Asshai" AND 
@@ -232,7 +327,7 @@ MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
 MATCH (person:Person), (advisor:Person),(faith:Group)
 WHERE person.name = "Stannis Baratheon" AND
     advisor.name = "Melisandre of Asshai" AND
-    faith.name = "R'hllor, the Lord of Light'
+    faith.name = "R'hllor, the Lord of Light"
 MERGE (advisor)-[:ADVISOR_TO]->(person)
 MERGE (advisor)-[:PRIEST_OF]->(faith);
 
@@ -245,17 +340,8 @@ WHERE person.name = "Stannis Baratheon" AND (
     )
 MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
 
-MATCH (house:House),(person:Person)
-WHERE house.name = "Baratheon" AND
-    person.name = "Stannis Baratheon" 
-MERGE (person)-[:OF_HOUSE]->(house);
 
 // Steffon Baratheon
-MATCH (house:House),(person:Person)
-WHERE house.name = "Baratheon" AND
-    person.name = "Steffon Baratheon" 
-MERGE (person)-[:OF_HOUSE]->(house);
-
 MATCH (husband:Person), (wife:Person),(child:Person)
 WHERE husband.name = "Steffon Baratheon" AND
     wife.name = "Cassana Estermont" AND (
@@ -267,15 +353,6 @@ MERGE (child)-[:CHILD_OF]->(husband)
 MERGE (child)-[:CHILD_OF]->(wife);
 
 // Cassana Estermont
-MATCH (house:House),(person:Person)
-WHERE house.name = "Estermont" AND
-    person.name = "Cassana Estermont" 
-MERGE (person)-[:OF_HOUSE]->(house);
-
-MATCH (person:Person),(mhouse:House)
-WHERE person.name = "Cassana Estermont" AND
-    mhouse.name = "Baratheon"
-MERGE (person)-[:MARRIED_INTO_HOUSE]->(house);
 
 // Tommen Baratheon Relationships
 MATCH (person:Person),(honor:Honor)
@@ -285,11 +362,6 @@ WHERE person.name = "Tommen Baratheon" AND (
         honor.title = "Lord of the Seven Kingdoms" 
     )
 MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
-
-MATCH (house:House),(person:Person)
-WHERE house.name = "Baratheon" AND
-    person.name = "Tommen Baratheon" 
-MERGE (person)-[:OF_HOUSE]->(house);
 
 MATCH (person:Person),(animal:Animal)
 WHERE person.name = "Tommen Baratheon" AND (
@@ -307,37 +379,29 @@ MERGE (person)-[:PRESIDES_OVER]->(court)
 MERGE (person)-[:PRESIDES_OVER]->(council);
 
 
-// Joffrey Baratheon Relationships
+// Joffrey Baratheon
 MATCH (person:Person),(honor:Honor)
 WHERE person.name = "Joffrey Baratheon" AND
     honor.title = "King" 
 MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
 
-MATCH (person:Person),(house:House)
-WHERE person.name = "Joffrey Baratheon" AND
-    house.name = "Baratheon"
-MERGE (person)-[:OF_HOUSE]->(house);
-
 // TODO: Represent death (poison) with relationship?
 
 // Margaery Tyrell relationships
-MATCH (person:Person), (place:Place),(crime:Crime),(house:House),(mhouse:House),(husband0:Person),(husband1:Person)
+MATCH (person:Person), (place:Place),(crime:Crime),(husband0:Person),(husband1:Person)
 WHERE person.name = "Margaery Tyrell" AND
     place.name = "Great Sept of Baelor" AND
     crime.name = "High Treason" AND
-    house.name = "Tyrell" AND
-    mhouse.name = "Baratheon" AND
     husband0.name = "Tommen Baratheon" AND
     husband1.name = "Joffrey Baratheon"
 MERGE (person)-[:CAPTIVE_IN]->(place)
 MERGE (person)-[:ACCUSED_OF]->(crime)
-MERGE (person)-[:OF_HOUSE]->(house)
-MERGE (person)-[:MARRIED_INTO_HOUSE]->(mhouse)
 MERGE (person)-[:MARRIED_TO]->(husband0)
 MERGE (person)-[:MARRIED_TO]->(husband1);
 
 // TODO: Margaery's previous husbands
 
+// Margeary's lovers
 MATCH (person:Person),(lover:Person)
 WHERE person.name = "Margaery Tyrell" AND (
         lover.name = "Wat the Blue Bard" OR
@@ -355,37 +419,31 @@ MERGE (lover)-[:ALLEGED_LOVER_OF]->(person);
         
 
 // Megga Tyrell relationships
-MATCH (person:Person),(crime:Crime),(cousin:Person),(house:House)
+MATCH (person:Person),(crime:Crime),(cousin:Person)
 WHERE person.name = "Megga Tyrell" AND
     crime.name = "Fornication" AND
-    cousin.name = "Margaery Tyrell" AND
-    house.name = "Tyrell"
+    cousin.name = "Margaery Tyrell"
 MERGE (person)-[:ACCUSED_OF]->(crime)
 MERGE (person)-[:COUSIN_OF]->(cousin)
-MERGE (person)-[:COMPANION_TO]->(cousin)
-MERGE (person)-[:OF_HOUSE]->(house);
+MERGE (person)-[:COMPANION_TO]->(cousin);
 
 // Alla Tyrell relationships
-MATCH (person:Person),(crime:Crime),(cousin:Person),(house:House)
+MATCH (person:Person),(crime:Crime),(cousin:Person)
 WHERE person.name = "Alla Tyrell" AND
     crime.name = "Fornication" AND
-    cousin.name = "Margaery Tyrell" AND
-    house.name = "Tyrell"
+    cousin.name = "Margaery Tyrell"
 MERGE (person)-[:ACCUSED_OF]->(crime)
 MERGE (person)-[:COUSIN_OF]->(cousin)
-MERGE (person)-[:COMPANION_TO]->(cousin)
-MERGE (person)-[:OF_HOUSE]->(house);
+MERGE (person)-[:COMPANION_TO]->(cousin);
 
 // Elinor Tyrell relationships
-MATCH (person:Person),(crime:Crime),(cousin:Person),(house:House)
+MATCH (person:Person),(crime:Crime),(cousin:Person)
 WHERE person.name = "Elinor Tyrell" AND
     crime.name = "Fornication" AND
-    cousin.name = "Margaery Tyrell" AND
-    house.name = "Tyrell"
+    cousin.name = "Margaery Tyrell"
 MERGE (person)-[:ACCUSED_OF]->(crime)
 MERGE (person)-[:COUSIN_OF]->(cousin)
-MERGE (person)-[:COMPANION_TO]->(cousin)
-MERGE (person)-[:OF_HOUSE]->(house);
+MERGE (person)-[:COMPANION_TO]->(cousin);
 
 // Alyn Ambrose relationships
 MATCH (person:Person),(honor:Honor)
@@ -399,11 +457,6 @@ WHERE p.name = "Alyn Ambrose" AND
 MERGE (p)-[:BETROTHED_TO]->(b);
 
 // Cersei Lannister relationships
-MATCH (person:Person),(house:House)
-WHERE person.name = "Cersei Lannister" AND
-    house.name = "Lannister"
-MERGE (person)-[:OF_HOUSE]->(house);
-
 MATCH (person:Person),(honor:Honor)
 WHERE person.name = "Cersei Lannister" AND (
         honor.title = "Queen Dowager" OR
@@ -419,17 +472,13 @@ WHERE mother.name = "Cersei Lannister" AND (
     )
 MERGE (child)-[:CHILD_OF]->(mother);
 
-MATCH (person:Person), (place:Place),(crime:Crime),(house:House),(mhouse:House),(husband:Person)
+MATCH (person:Person), (place:Place),(crime:Crime),(husband:Person)
 WHERE person.name = "Cersei Lannister" AND
     place.name = "Great Sept of Baelor" AND
     crime.name = "High Treason" AND
-    house.name = "Lannister" AND
-    mhouse.name = "Baratheon" AND
     husband.name = "Robert Baratheon"
 MERGE (person)-[:CAPTIVE_IN]->(place)
 MERGE (person)-[:ACCUSED_OF]->(crime)
-MERGE (person)-[:OF_HOUSE]->(house)
-MERGE (person)-[:MARRIED_INTO_HOUSE]->(mhouse)
 MERGE (person)-[:MARRIED_TO]->(husband);
 
 MATCH (person:Person),(council:Group)
@@ -444,19 +493,10 @@ WHERE person.name = "Myrcella Baratheon" AND
     honor.title = "Princess" 
 MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
 
-MATCH (person:Person),(house:House)
-WHERE person.name = "Myrcella Baratheon" AND
-    house.name = "Baratheon"
-MERGE (person)-[:OF_HOUSE]->(house);
 // TODO: WARD_OF
 // TODO: BETROTHED_TO
 
 // Jaime Lannister relationships
-MATCH (person:Person),(house:House)
-WHERE person.name = "Jaime Lannister" AND
-    house.name = "Lannister"
-MERGE (person)-[:OF_HOUSE]->(house);
-
 MATCH (person:Person),(honor:Honor)
 WHERE person.name = "Jaime Lannister" AND (
         honor.title = "The Kingslayer" OR
@@ -478,11 +518,6 @@ WHERE person.name = "Jaime Lannister" AND (
 MERGE (person)-[:MEMBER_OF {owner:"Tommen Baratheon"}]->(group);
 
 // Tyrion Lannister relationships
-MATCH (person:Person),(house:House)
-WHERE person.name = "Tyrion Lannister" AND
-    house.name = "Lannister"
-MERGE (person)-[:OF_HOUSE]->(house);
-
 MATCH (person:Person),(honor:Honor)
 WHERE person.name = "Tyrion Lannister" AND
     honor.title = "The Imp"
@@ -497,11 +532,6 @@ MERGE (person)-[:ACCUSED_OF]->(crime)
 MERGE (person)-[:CONDEMNED_FOR]->(crime);
 
 // Tywin Lannister
-MATCH (person:Person),(house:House)
-WHERE person.name = "Tywin Lannister" AND
-    house.name = "Lannister"
-MERGE (person)-[:OF_HOUSE]->(house);
-
 MATCH (person:Person),(honor:Honor)
 WHERE person.name = "Tywin Lannister" AND (
         honor.title = "Lord of Casterly Rock" OR
@@ -524,11 +554,6 @@ WHERE person.name = "Tywin Lannister" AND
 MERGE (person)-[:MURDERED_BY {weapon:"Crossbow",location:"on privy"}]->(murderer);
 
 // Kevan Lannister
-MATCH (person:Person),(house:House)
-WHERE person.name = "Kevan Lannister" AND
-    house.name = "Lannister"
-MERGE (person)-[:OF_HOUSE]->(house);
-
 MATCH (person:Person),(honor:Honor)
 WHERE person.name = "Kevan Lannister" AND (
         honor.title = "Ser" OR
@@ -559,64 +584,30 @@ WHERE husband.name = "Kevan Lannister" AND
 MERGE (husband)-[:MARRIED_TO]->(wife);
 
 // Dorna Swyft
-MATCH (person:Person),(mhouse:House)
-WHERE person.name = "Dorna Swyft" AND
-    mhouse.name = "Lannister"
-MERGE (person)-[:MARRIED_INTO_HOUSE]->(house);
 
 // Lancel Lannister
-MATCH (person:Person),(house:House)
-WHERE person.name = "Lancel Lannister" AND
-    house.name = "Lannister"
-MERGE (person)-[:OF_HOUSE]->(house);
-
 MATCH (person:Person),(honor:Honor)
 WHERE person.name = "Lancel Lannister" AND 
     honor.title = "Ser"
 MERGE (person)-[:HOLDS_HONOR_OF {type:"Holy Order of the Warrior's Sons"}]->(honor);
 
 // Willem Lannister
-MATCH (person:Person),(house:House)
-WHERE person.name = "Willem Lannister" AND
-    house.name = "Lannister"
-MERGE (person)-[:OF_HOUSE]->(house);
-
 MATCH (person:Person),(twin:Person)
 WHERE person.name = "Willem Lannister" AND
     twin.name = "Martyn Lannister"
 MERGE (person)-[:TWIN_TO]->(twin);
 
 // Martyn Lannister
-MATCH (person:Person),(house:House)
-WHERE person.name = "Martyn Lannister" AND
-    house.name = "Lannister"
-MERGE (person)-[:OF_HOUSE]->(house);
-
 MATCH (person:Person),(honor:Honor)
 WHERE person.name = "Martyn Lannister" AND
     honor.title = "Squire" 
 MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
 
 // Janei Lannister
-MATCH (person:Person),(house:House)
-WHERE person.name = "Janei Lannister" AND
-    house.name = "Lannister"
-MERGE (person)-[:OF_HOUSE]->(house);
-
 
 //TODO Robert Baratheon
 
 // Genna Lannister
-MATCH (person:Person),(house:House)
-WHERE person.name = "Genna Lannister" AND
-    house.name = "Lannister"
-MERGE (person)-[:OF_HOUSE]->(house);
-
-MATCH (person:Person),(house:House)
-WHERE person.name = "Genna Lannister" AND
-    house.name = "Frey"
-MERGE (person)-[:MARRIED_INTO_HOUSE]->(house);
-
 MATCH (wife:Person), (husband:Person)
 WHERE wife.name = "Genna Lannister" AND
     husband.name = "Emmon Frey"
@@ -635,27 +626,8 @@ MERGE (child)-[:CHILD_OF]->(husband);
 
 
 // Emmon Frey
-MATCH (person:Person),(house:House)
-WHERE person.name = "Emmon Frey" AND
-    house.name = "Frey"
-MERGE (person)-[:OF_HOUSE]->(house);
-
-MATCH (person:Person),(honor:Honor)
-WHERE person.name = "Emmon Frey" AND
-    honor.title = "Ser" 
-MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
 
 // Cleos Frey
-MATCH (person:Person),(house:House)
-WHERE person.name = "Cleos Frey" AND
-    house.name = "Frey"
-MERGE (person)-[:OF_HOUSE]->(house);
-
-MATCH (person:Person),(honor:Honor)
-WHERE person.name = "Cleos Frey" AND
-    honor.title = "Ser" 
-MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
-
 MATCH (father:Person),(child:Person)
 WHERE father.name = "Cleos Frey" AND (
         child.name = "Tywin Frey" OR
@@ -664,71 +636,28 @@ WHERE father.name = "Cleos Frey" AND (
 MERGE (child)-[:CHILD_OF]->(husband);
 
 // Tywin Frey
-MATCH (person:Person),(house:House)
-WHERE person.name = "Tywin Frey" AND
-    house.name = "Frey"
-MERGE (person)-[:OF_HOUSE]->(house);
-
-MATCH (person:Person),(honor:Honor)
-WHERE person.name = "Tywin Frey" AND
-    honor.title = "Ser" 
-MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
 
 // Willem Frey
-MATCH (person:Person),(house:House)
-WHERE person.name = "Willem Frey" AND
-    house.name = "Frey"
-MERGE (person)-[:OF_HOUSE]->(house);
-
 MATCH (person:Person),(honor:Honor)
 WHERE person.name = "Willem Frey" AND
     honor.title = "Squire" 
 MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
 
 // Lyonel Frey
-MATCH (person:Person),(house:House)
-WHERE person.name = "Lyonel Frey" AND
-    house.name = "Frey"
-MERGE (person)-[:OF_HOUSE]->(house);
-
-MATCH (person:Person),(honor:Honor)
-WHERE person.name = "Willem Frey" AND
-    honor.title = "Ser" 
-MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
 
 // Tion Frey
-MATCH (person:Person),(house:House)
-WHERE person.name = "Tion Frey" AND
-    house.name = "Frey"
-MERGE (person)-[:OF_HOUSE]->(house);
-
 MATCH (person:Person),(honor:Honor)
 WHERE person.name = "Tion Frey" AND
     honor.title = "Squire" 
 MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
 
 // Red Walder Frey
-MATCH (person:Person),(house:House)
-WHERE person.name = "Red Walder Frey" AND
-    house.name = "Frey"
-MERGE (person)-[:OF_HOUSE]->(house);
-
 MATCH (person:Person),(honor:Honor)
 WHERE person.name = "Red Walder Frey" AND
     honor.title = "Page" 
 MERGE (person)-[:HOLDS_HONOR_OF {location:"Casterly Rock"}]->(honor);
 
 // Tygett Lannister
-MATCH (person:Person),(house:House)
-WHERE person.name = "Tygett Lannister" AND
-    house.name = "Lannister"
-MERGE (person)-[:OF_HOUSE]->(house);
-
-MATCH (person:Person),(honor:Honor)
-WHERE person.name = "Tygett Lannister" AND
-    honor.title = "Ser" 
-MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
-
 MATCH (wife:Person), (husband:Person)
 WHERE wife.name = "Darlessa Marbrand" AND
     husband.name = "Tygett Lannister"
@@ -742,17 +671,8 @@ MERGE (child)-[:CHILD_OF]->(father)
 MERGE (child)-[:CHILD_OF]->(mother);
 
 // Darlessa Marbrand
-MATCH (person:Person),(house:House)
-WHERE person.name = "Darlessa Marbrand" AND
-    house.name = "Lannister"
-MERGE (person)-[:MARRIED_INTO_HOUSE]->(house);
 
 // Tyrek Lannister
-MATCH (person:Person),(house:House)
-WHERE person.name = "Tyrek Lannister" AND
-    house.name = "Lannister"
-MERGE (person)-[:OF_HOUSE]->(house);
-
 MATCH (person:Person),(honor:Honor)
 WHERE person.name = "Tyrek Lannister" AND
     honor.title = "Squire" 
@@ -764,28 +684,14 @@ WHERE wife.name = "Ermesande Hayfor" AND
 MERGE (wife)-[:MARRIED_TO]->(husband);
 
 // Ermesande Hayford
-MATCH (person:Person),(house:House)
-WHERE person.name = "Ermesande Hayford" AND
-    house.name = "Lannister"
-MERGE (person)-[:MARRIED_INTO_HOUSE]->(house);
 
 // Gerion Lannister
-MATCH (person:Person),(house:House)
-WHERE person.name = "Gerion Lannister" AND
-    house.name = "Lannister"
-MERGE (person)-[:OF_HOUSE]->(house);
-
 MATCH (person:Person),(child:Person)
 WHERE person.name = "Gerion Lannister" AND
     child.name = "Joy Hill"
 MERGE (child)-[:CHILD_OF]->(father);
 
 // Mace Tyrell
-MATCH (person:Person),(house:House)
-WHERE person.name = "Mace Tyrell" AND
-    house.name = "Tyrell"
-MERGE (person)-[:OF_HOUSE]->(house);
-
 MATCH (person:Person),(honor:Honor)
 WHERE person.name = "Mace Tyrell" AND
     honor.title = "Hand of the King" 
@@ -877,55 +783,30 @@ WHERE person.name = "Aurane Waters" AND
 MERGE (person)-[:FLED_TO]->(place);
 
 // Meryn Trant
-MATCH (person:Person),(honor:Honor)
-WHERE person.name = "Meryn Trant" AND
-    honor.title = "Ser" 
-MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
-
 MATCH (person:Person),(group:Group)
 WHERE person.name = "Meryn Trant" AND 
     group.name = "Kingsguard"
 MERGE (person)-[:MEMBER_OF {owner:"Tommen Baratheon"}]->(group);
 
 // Boros Blount
-MATCH (person:Person),(honor:Honor)
-WHERE person.name = "Boros Blount" AND
-    honor.title = "Ser" 
-MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
-
 MATCH (person:Person),(group:Group)
 WHERE person.name = "Boros Blount" AND 
     group.name = "Kingsguard"
 MERGE (person)-[:MEMBER_OF {owner:"Tommen Baratheon"}]->(group);
 
 // Balon Swann
-MATCH (person:Person),(honor:Honor)
-WHERE person.name = "Balon Swann" AND
-    honor.title = "Ser" 
-MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
-
 MATCH (person:Person),(group:Group)
 WHERE person.name = "Balon Swann" AND 
     group.name = "Kingsguard"
 MERGE (person)-[:MEMBER_OF {owner:"Tommen Baratheon"}]->(group);
 
 // Osmund Kettleblack
-MATCH (person:Person),(honor:Honor)
-WHERE person.name = "Osmund Kettleblack" AND
-    honor.title = "Ser" 
-MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
-
 MATCH (person:Person),(group:Group)
 WHERE person.name = "Osmund Kettleblack" AND 
     group.name = "Kingsguard"
 MERGE (person)-[:MEMBER_OF {owner:"Tommen Baratheon"}]->(group);
 
 // Loras Tyrell
-MATCH (person:Person),(house:House)
-WHERE person.name = "Loras Tyrell" AND
-    house.name = "Tyrell"
-MERGE (person)-[:OF_HOUSE]->(house);
-
 MATCH (person:Person),(honor:Honor)
 WHERE person.name = "Loras Tyrell" AND (
         honor.title = "Ser" OR
@@ -939,11 +820,6 @@ WHERE person.name = "Loras Tyrell" AND
 MERGE (person)-[:MEMBER_OF {owner:"Tommen Baratheon"}]->(group);
 
 // Arys Oakheart
-MATCH (person:Person),(honor:Honor)
-WHERE person.name = "Arys Oakheart" AND
-    honor.title = "Ser" 
-MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
-
 MATCH (person:Person),(group:Group)
 WHERE person.name = "Arys Oakheart" AND 
     group.name = "Kingsguard"
@@ -968,11 +844,6 @@ WHERE person.name = "Ormond of Oldtown" AND
 MERGE (person)-[:MEMBER_OF {owner:"Tommen Baratheon",job:"Royal Harper and Bard"}]->(group);
 
 // Osfryd Kettleblack
-MATCH (person:Person),(honor:Honor)
-WHERE person.name = "Osfryd Kettleblack" AND
-    honor.title = "Ser" 
-MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
-
 MATCH (person:Person),(group:Group)
 WHERE person.name = "Osfryd Kettleblack" AND 
     group.name = "Court"
@@ -1007,34 +878,14 @@ WHERE person.name = "Rennifer Longwaters" AND
 MERGE (person)-[:MEMBER_OF {owner:"Tommen Baratheon",job:"Chief undergaoler of the Red Keep Dungeons"}]->(group);
 
 // Mark Mullendore
-MATCH (person:Person),(honor:Honor)
-WHERE person.name = "Mark Mullendore" AND
-    honor.title = "Ser" 
-MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
 
 // Tallad the Tall
-MATCH (person:Person),(honor:Honor)
-WHERE person.name = "Tallad the Tall" AND
-    honor.title = "Ser" 
-MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
 
 // Lambert Turnberry
-MATCH (person:Person),(honor:Honor)
-WHERE person.name = "Lambert Turnberry" AND
-    honor.title = "Ser" 
-MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
 
 // Bayard Norcross
-MATCH (person:Person),(honor:Honor)
-WHERE person.name = "Bayard Norcross" AND
-    honor.title = "Ser" 
-MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
 
 // Hugh Clifton
-MATCH (person:Person),(honor:Honor)
-WHERE person.name = "Hugh Clifton" AND
-    honor.title = "Ser" 
-MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
 
 // Jalabhar Xho
 MATCH (person:Person),(honor:Honor)
@@ -1048,22 +899,10 @@ WHERE person.name = "Jalabhar Xho" AND
 MERGE (person)-[:EXILED_FROM]->(place);
 
 // Horas Redwyne
-MATCH (person:Person),(honor:Honor)
-WHERE person.name = "Horas Redwyne" AND
-    honor.title = "Ser" 
-MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
 
 // Hobber Redwyne
-MATCH (person:Person),(honor:Honor)
-WHERE person.name = "Hobber Redwyne" AND
-    honor.title = "Ser" 
-MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
 
 // Osney Kettleblack
-MATCH (person:Person),(honor:Honor)
-WHERE person.name = "Osney Kettleblack" AND
-    honor.title = "Ser" 
-MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
 
 MATCH (person:Person),(group:Group)
 WHERE person.name = "Osney Kettleblack" AND
@@ -1095,10 +934,6 @@ WHERE faith.name = "The Faith" AND (
 MERGE (person)-[:MEMBER_OF]->(faith);
 
 // Theodan Wells
-MATCH (person:Person),(honor:Honor)
-WHERE person.name = "Theodan Wells" AND
-    honor.title = "Ser" 
-MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
 
 // Chataya
 MATCH (person:Person), (place:Place)
@@ -1109,7 +944,7 @@ WHERE place.name = "King's Landing" AND (
         person.name = "Marei" OR
         person.name = "Tobho Mott"
     )
-MERGE (person)-[:MEMBER_OF]->(place);
+MERGE (person)-[:LIVES_IN]->(place);
 
 MATCH (person:Person), (child:Person)
 WHERE person.name = "Chataya" AND
@@ -1152,10 +987,6 @@ WHERE wife.name = "Falyse Stokeworth" AND
 MERGE (wife)-[:MARRIED_TO]->(husband);
 
 // Balman Byrch
-MATCH (person:Person),(honor:Honor)
-WHERE person.name = "Balman Byrch" AND
-    honor.title = "Ser" 
-MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
 
 // Lollys Stokeworth
 MATCH (person:Person),(honor:Honor)
@@ -1174,10 +1005,6 @@ WHERE mother.name = "Lollys Stokeworth" AND
 MERGE (child)-[:CHILD_OF]->(mother);
 
 // Bronn of the Blackwater
-MATCH (person:Person),(honor:Honor)
-WHERE person.name = "Bronn of the Blackwater" AND
-    honor.title = "Ser" 
-MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
 
 // Maester Frenken
 MATCH (person:Person),(place:Place)
