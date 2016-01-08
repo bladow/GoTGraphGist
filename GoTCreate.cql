@@ -6,6 +6,8 @@ MERGE (:House {name:"Lannister"});
 MERGE (:House {name:"Frey"});
 MERGE (:House {name:"Florent"});
 MERGE (:House {name:"Estermont"});
+MERGE (:House {name:"Greyjoy"});
+MERGE (:House {name:"Harlaw"});
 
 
 // CREATE crimes
@@ -23,6 +25,7 @@ MERGE (:Place {name:"King's Landing"});
 MERGE (:Place {name:"Summer Isles"});
 MERGE (:Place {name:"Stokeworth"});
 MERGE (:Place {name:"Eastwatch-by-the-Sea"});
+MERGE (:Place {name:"Dreadfort"});
 
 // CREATE groups
 MERGE (:Group {name:"Small Council"});
@@ -32,6 +35,7 @@ MERGE (:Group {name:"The Faith"});
 MERGE (:Group {name:"R'hllor, the Lord of Light"});
 MERGE (:Group {name:"Lords of the Crownlands"});
 MERGE (:Group {name:"Iron Bank of Braavos"});
+MERGE (:Group {name:"Drowned God"});
 
 // CREATE honors
 MERGE (:Honor {title:"First of His Name"});
@@ -76,7 +80,19 @@ MERGE (:Honor {title:"Lord of the Rainwood"});
 MERGE (:Honor {title:"Admiral of the Narrow Sea"});
 MERGE (:Honor {title:"The Onion Knight"});
 MERGE (:Honor {title:"Master of the Valyrian"});
-MERGE (:Honor {title:""});
+MERGE (:Honor {title:"The Third of His Name Since the Grey King"});
+MERGE (:Honor {title:"The Ninth of His Name Since the Grey King"});
+MERGE (:Honor {title:"King of the Iron Islands and the North"});
+MERGE (:Honor {title:"Son of the Sea Wind"});
+MERGE (:Honor {title:"Lord Reaper of Pyke"});
+MERGE (:Honor {title:"Captain of the Silence"});
+MERGE (:Honor {title:"Crow's Eye"});
+MERGE (:Honor {title:"Captain of the Black Wind"});
+MERGE (:Honor {title:"Conqueror of Deepwood Motte"});
+MERGE (:Honor {title:"Theon Turncloack"});
+MERGE (:Honor {title:"Lord Captain of the Iron Fleet"});
+MERGE (:Honor {title:"Master of the Iron Victory"});
+MERGE (:Honor {title:"Damphair"});
 
 
 // CREATE animals
@@ -197,7 +213,6 @@ MERGE (:Person {name:"The Wildling Prince"});
 MERGE (:Person {name:"Gilly"});
 MERGE (:Person {name:"The Abomination"});
 MERGE (:Person {name:"Craster",alive:false});
-//--
 MERGE (:Person {name:"Selyse Florent"});
 MERGE (:Person {name:"Shireen Baratheon"});
 MERGE (:Person {name:"Patchface"});
@@ -213,6 +228,17 @@ MERGE (:Person {name:"Brus Buckler"});
 MERGE (:Person {name:"Davos Seaworth"});
 MERGE (:Person {name:"Salladhar Saan"});
 MERGE (:Person {name:"Tycho Nestoris"});
+//--
+MERGE (:Person {name:"Euron Greyjoy"});
+MERGE (:Person {name:"Balon Greyjoy", alive:false});
+MERGE (:Person {name:"Alannys Greyjoy"});
+MERGE (:Person {name:"Rodrik Greyjoy", alive:false});
+MERGE (:Person {name:"Maron Greyjoy", alive:false});
+MERGE (:Person {name:"Asha Greyjoy"});
+MERGE (:Person {name:"Theon Greyjoy"});
+MERGE (:Person {name:"Erik Ironmaker"});
+MERGE (:Person {name:"Victarian Greyjoy"});
+MERGE (:Person {name:"Aeron Greyjoy"});
 MERGE (:Person {name:""});
 
 
@@ -246,6 +272,29 @@ MERGE (person)-[:OF_HOUSE]->(house);
 MATCH (house:House),(person:Person)
 WHERE house.name = "Estermont" AND
     person.name = "Cassana Estermont" 
+MERGE (person)-[:OF_HOUSE]->(house);
+
+// House Greyjoy
+MATCH (house:House),(person:Person),(spouse:Person)
+WHERE house.name = "Greyjoy" AND (
+        person.name = "Euron Greyjoy" OR 
+        person.name = "Balon Greyjoy" OR 
+        person.name = "Rodrik Greyjoy" OR 
+        person.name = "Maron Greyjoy" OR 
+        person.name = "Asha Greyjoy" OR 
+        person.name = "Theon Greyjoy" OR 
+        person.name = "Victarion Greyjoy" OR 
+        person.name = "Aeron Greyjoy" OR 
+        spouse.name = "Alannys Greyjoy" OR
+        spouse.name = "Erik Ironmaker" OR
+    ) 
+MERGE (person)-[:OF_HOUSE]->(house)
+MERGE (spouse)-[:MARRIED_INTO_HOUSE]->(house);
+
+// House Harlaw
+MATCH (house:House),(person:Person)
+WHERE house.name = "Harlaw" AND
+    person.name = "Alannys Greyjoy" 
 MERGE (person)-[:OF_HOUSE]->(house);
 
 // House Lannister
@@ -386,6 +435,72 @@ WHERE place.name = "Eastwatch-by-the-Sea" AND (
         person.name = "Tycho Nestoris"
     )
 MERGE (person)-[:CURRENTLY_AT]->(place);
+
+// Aeron Greyjoy
+MATCH (person:Person),(honor:Honor),(god:Group)
+WHERE person.name = "Aeron Greyjoy" AND 
+        honor.title = "Damphair" AND 
+        god.name = "Drowned God"
+MERGE (person)-[:HOLDS_HONOR_OF]->(honor)
+MERGE (person)-[:PRIEST_OF]->(god);
+
+// Victarion Greyjoy
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Victarion Greyjoy" AND (
+        honor.title = "Lord Captain of the Iron Fleet" OR
+        honor.title = "Master of the Iron Victory"
+    )
+MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Theon Greyjoy
+MATCH (person:Person),(honor:Honor)(place:Place)
+WHERE person.name = "Theon Greyjoy" AND 
+        honor.title = "Theon Turncloak" AND 
+        place.name = "Dreadfort"
+MERGE (person)-[:HOLDS_HONOR_OF]->(honor)
+MERGE (person)-[:CAPTIVE_IN]->(place)
+
+
+// Asha Greyjoy
+MATCH (person:Person),(honor:Honor),(husband:Person)
+WHERE person.name = "Asha Greyjoy" AND (
+        honor.title = "Captain of the Black Wind" OR
+        honor.title = "Conqueror of Deepwood Motte" 
+    ) AND
+    husband.name = "Erik Ironmaker"
+MERGE (person)-[:HOLDS_HONOR_OF]->(honor)
+MERGE (person)-[:MARRIED_TO]->(husband);
+
+// Alannys Greyjoy
+
+// Balon Greyjoy
+MATCH (person:Person),(honor:Honor),(wife:Person),(child:Person)
+WHERE person.name = "Euron Greyjoy" AND (
+        honor.title = "The Ninth of His Name Since the Grey King" OR
+        honor.title = "King of the Iron Islands and the North" 
+    ) AND
+    wife.name = "Alannys Greyjoy" AND (
+        child.name = "Rodrik Greyjoy" OR
+        child.name = "Maron Greyjoy" OR
+        child.name = "Asha Greyjoy" OR
+        child.name = "Theon Greyjoy"
+    )
+MERGE (person)-[:HOLDS_HONOR_OF]->(honor)
+MERGE (person)-[:MARRIED_TO]->(wife)
+MERGE (child)-[:CHILD_OF]->(person)
+MERGE (child)-[:CHILD_OF]->(wife);
+
+// Euron Greyjoy
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Euron Greyjoy" AND (
+        honor.title = "The Third of His Name Since the Grey King" OR
+        honor.title = "King of the Iron Islands and the North" OR
+        honor.title = "Son of the Sea Wind" OR
+        honor.title = "Lord Reaper of Pyke" OR
+        honor.title = "Captain of the Silence" OR
+        honor.title = "Crow's Eye"
+    )
+MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
 
 // Axell Florent
 MATCH (person:Person),(honor:Honor)
