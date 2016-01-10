@@ -633,6 +633,7 @@ WHERE person.name = "Stannis Baratheon" AND (
     )
 MERGE (squire)-[:SQUIRE_TO]->(person);
 
+// Stannis Faith
 MATCH (person:Person), (advisor:Person),(faith:Group)
 WHERE person.name = "Stannis Baratheon" AND
     advisor.name = "Melisandre of Asshai" AND
