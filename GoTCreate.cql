@@ -78,6 +78,7 @@ MERGE (:Honor {title:"Lord of Dragonstone"});
 MERGE (:Honor {title:"King of Westeros"});
 MERGE (:Honor {title:"The Red Woman"});
 MERGE (:Honor {title:"Queen"});
+MERGE (:Honor {title:"King-Beyond-the-Wall"});
 MERGE (:Honor {title:"Queen's Hand"});
 MERGE (:Honor {title:"Lord of the Rainwood"});
 MERGE (:Honor {title:"Admiral of the Narrow Sea"});
