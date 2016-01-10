@@ -46,6 +46,8 @@ MERGE (:Honor {title:"Princess"});
 MERGE (:Honor {title:"Squire"});
 MERGE (:Honor {title:"Ser"});
 MERGE (:Honor {title:"Page"});
+MERGE (:Honor {title:"Lord"});
+//TODO: Make all Lord's generic Lords
 MERGE (:Honor {title:"Queen Dowager"});
 MERGE (:Honor {title:"Lady of Casterly Rock"});
 MERGE (:Honor {title:"The Kingslayer"});
@@ -354,8 +356,8 @@ MERGE (person)-[:OF_HOUSE]->(house);
 
 
 // People with honorific "Ser" and no other title
-MATCH (honor:Honor),(person:Person)
-WHERE honor.title= "Ser" AND (
+MATCH (honor:Honor) WHERE honor.title = "Ser"
+OPTIONAL MATCH (person:Person) WHERE (
         person.name = "Richard Horpe" OR
         person.name = "Godry Farring" OR
         person.name = "Justin Massey" OR
@@ -399,8 +401,8 @@ WHERE honor.title= "Ser" AND (
 MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
 
 // People with honorific "Squire" and no other title
-MATCH (honor:Honor),(person:Person)
-WHERE honor.title= "Squire" AND (
+MATCH (honor:Honor) WHERE honor.title= "Squire"
+OPTIONAL MATCH (person:Person) WHERE (
         person.name = "Alyn Ambrose" OR
         person.name = "Martyn Lannister" OR
         person.name = "Willem Frey" OR
@@ -411,9 +413,10 @@ WHERE honor.title= "Squire" AND (
     )
 MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
 
-MATCH (honor:Honor),(person:Person),(faith:Group)
-WHERE honor.title= "Lord" AND
-    faith.name = "R'hllor, the Lord of Light" AND (
+// Lords that follow R'hllor
+MATCH (honor:Honor) WHERE honor.title = "Lord"
+OPTIONAL MATCH (faith:Group) WHERE faith.name = "R'hllor, the Lord of Light"
+OPTIONAL MATCH (person:Person) WHERE (
         person.name = "Robin Peasebury" OR
         person.name = "Harwood Fell"
     )
@@ -421,8 +424,8 @@ MERGE (person)-[:HOLDS_HONOR_OF]->(honor)
 MERGE (person)-[:FOLLOWER_OF]->(faith);
 
 // People at Eastwatch
-MATCH (person:Person),(place:Place)
-WHERE place.name = "Eastwatch-by-the-Sea" AND (
+MATCH (place:Place) WHERE place.name = "Eastwatch-by-the-Sea"
+OPTIONAL MATCH (person:Person) WHERE (
         person.name = "Selyse Florent" OR
         person.name = "Shireen Baratheon" OR
         person.name = "Patchface" OR
