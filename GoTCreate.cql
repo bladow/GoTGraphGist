@@ -775,14 +775,6 @@ WHERE person.name = "Cersei Lannister" AND (
     )
 MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
 
-MATCH (mother:Person), (child:Person)
-WHERE mother.name = "Cersei Lannister" AND (
-        child.name = "Tommen Baratheon" OR
-        child.name = "Joffrey Baratheon" OR
-        child.name = "Myrcella Baratheon"
-    )
-MERGE (child)-[:CHILD_OF]->(mother);
-
 MATCH (person:Person), (place:Place),(crime:Crime),(husband:Person)
 WHERE person.name = "Cersei Lannister" AND
     place.name = "Great Sept of Baelor" AND
@@ -827,6 +819,17 @@ WHERE person.name = "Jaime Lannister" AND (
         group.name = "Kingsguard"
     )
 MERGE (person)-[:MEMBER_OF {owner:"Tommen Baratheon"}]->(group);
+
+// Jamie and Cersei's children
+MATCH (mother:Person), (child:Person), (father:Person)
+WHERE mother.name = "Cersei Lannister" AND
+father.name = "Jaime Lannister" AND (
+        child.name = "Tommen Baratheon" OR
+        child.name = "Joffrey Baratheon" OR
+        child.name = "Myrcella Baratheon"
+    )
+MERGE (child)-[:CHILD_OF]->(mother)
+MERGE (child)-[:CHILD_OF]->(father);
 
 // Tyrion Lannister relationships
 MATCH (person:Person),(honor:Honor)
