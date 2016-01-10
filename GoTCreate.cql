@@ -91,7 +91,7 @@ MERGE (:Honor {title:"Captain of the Silence"});
 MERGE (:Honor {title:"Crow's Eye"});
 MERGE (:Honor {title:"Captain of the Black Wind"});
 MERGE (:Honor {title:"Conqueror of Deepwood Motte"});
-MERGE (:Honor {title:"Theon Turncloack"});
+MERGE (:Honor {title:"Theon Turncloak"});
 MERGE (:Honor {title:"Lord Captain of the Iron Fleet"});
 MERGE (:Honor {title:"Master of the Iron Victory"});
 MERGE (:Honor {title:"Damphair"});
