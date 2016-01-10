@@ -238,7 +238,7 @@ MERGE (:Person {name:"Maron Greyjoy", alive:false});
 MERGE (:Person {name:"Asha Greyjoy"});
 MERGE (:Person {name:"Theon Greyjoy"});
 MERGE (:Person {name:"Erik Ironmaker"});
-MERGE (:Person {name:"Victarian Greyjoy"});
+MERGE (:Person {name:"Victarion Greyjoy"});
 MERGE (:Person {name:"Aeron Greyjoy"});
 //MERGE (:Person {name:""});
 
@@ -285,7 +285,7 @@ OPTIONAL MATCH (person:Person) WHERE (
         person.name = "Maron Greyjoy" OR
         person.name = "Asha Greyjoy" OR
         person.name = "Theon Greyjoy" OR
-        person.name = "Victarian Greyjoy" OR
+        person.name = "Victarion Greyjoy" OR
         person.name = "Aeron Greyjoy"
     )
 OPTIONAL MATCH (spouse:Person) WHERE (
