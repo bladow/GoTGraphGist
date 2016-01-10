@@ -9,7 +9,6 @@ MERGE (:House {name:"Estermont"});
 MERGE (:House {name:"Greyjoy"});
 MERGE (:House {name:"Harlaw"});
 
-
 // CREATE crimes
 MERGE (:Crime {name:"High Treason"});
 MERGE (:Crime {name:"Fornication"});
@@ -354,6 +353,13 @@ OPTIONAL MATCH (person:Person) WHERE  (
         person.name = "Elinor Tyrell" OR
         person.name = "Megga Tyrell"
     )
+MERGE (person)-[:OF_HOUSE]->(house);
+
+// House Estermont
+MATCH (house:House) WHERE house.name = "Estermont"
+OPTIONAL MATCH (person:Person) WHERE (
+      person.name = "Cassana Estermont"
+)
 MERGE (person)-[:OF_HOUSE]->(house);
 
 
