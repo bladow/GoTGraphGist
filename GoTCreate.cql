@@ -151,7 +151,6 @@ MERGE (:Person {name:"Moon Boy"});
 MERGE (:Person {name:"Pate",age:8});
 MERGE (:Person {name:"Ormond of Oldtown"});
 MERGE (:Person {name:"Osfryd Kettleblack"});
-// TODO: Add sibling relationships
 MERGE (:Person {name:"Noho Dimittis"});
 MERGE (:Person {name:"Gregor Clegane",alive:false});
 MERGE (:Person {name:"Rennifer Longwaters"});
@@ -244,14 +243,16 @@ MERGE (:Person {name:"Aeron Greyjoy"});
 
 // List out all of the Houses and who belongs to them
 // House Baratheon
-MATCH (house:House),(person:Person),(spouse:Person)
-WHERE house.name = "Baratheon" AND (
+MATCH (house:House) WHERE house.name = "Baratheon"
+OPTIONAL MATCH (person:Person) WHERE (
         person.name = "Stannis Baratheon" OR
         person.name = "Steffon Baratheon" OR
         person.name = "Tommen Baratheon" OR
         person.name = "Joffrey Baratheon" OR
         person.name = "Myrcella Baratheon" OR
-        person.name = "Shireen Baratheon" OR
+        person.name = "Shireen Baratheon"
+)
+OPTIONAL MATCH (spouse:Person) WHERE (
         spouse.name = "Cassana Estermont" OR
         spouse.name = "Margaery Tyrell" OR
         spouse.name = "Selyse Florent" OR
@@ -261,46 +262,45 @@ MERGE (person)-[:OF_HOUSE]->(house)
 MERGE (spouse)-[:MARRIED_INTO_HOUSE]->(house);
 
 // House Florent
-MATCH (house:House),(person:Person)
-WHERE house.name = "Florent" AND (
+MATCH (house:House) WHERE house.name = "Florent"
+OPTIONAL MATCH (person:Person) WHERE (
         person.name = "Selyse Florent" OR
         person.name = "Axell Florent"
     )
 MERGE (person)-[:OF_HOUSE]->(house);
 
 // House Estermont
-MATCH (house:House),(person:Person)
-WHERE house.name = "Estermont" AND
-    person.name = "Cassana Estermont"
+MATCH (house:House) WHERE house.name = "Estermont"
+OPTIONAL MATCH (person:Person) WHERE person.name = "Cassana Estermont"
 MERGE (person)-[:OF_HOUSE]->(house);
 
 // House Greyjoy
-MATCH (house:House),(person:Person),(spouse:Person)
-WHERE house.name = "Greyjoy" AND (
+MATCH (house:House) WHERE house.name = "Greyjoy"
+OPTIONAL MATCH (person:Person) WHERE (
         person.name = "Euron Greyjoy" OR
         person.name = "Balon Greyjoy" OR
         person.name = "Rodrik Greyjoy" OR
         person.name = "Maron Greyjoy" OR
         person.name = "Asha Greyjoy" OR
         person.name = "Theon Greyjoy" OR
-        person.name = "Victarion Greyjoy" OR
-        person.name = "Aeron Greyjoy" OR
+        person.name = "Victarian Greyjoy" OR
+        person.name = "Aeron Greyjoy"
+    )
+OPTIONAL MATCH (spouse:Person) WHERE (
         spouse.name = "Alannys Greyjoy" OR
         spouse.name = "Erik Ironmaker"
     )
 MERGE (person)-[:OF_HOUSE]->(house)
 MERGE (spouse)-[:MARRIED_INTO_HOUSE]->(house);
 
-
 // House Harlaw
-MATCH (house:House),(person:Person)
-WHERE house.name = "Harlaw" AND
-    person.name = "Alannys Greyjoy"
+MATCH (house:House) WHERE house.name = "Harlaw"
+OPTIONAL MATCH (person:Person) WHERE person.name = "Alannys Greyjoy"
 MERGE (person)-[:OF_HOUSE]->(house);
 
 // House Lannister
-MATCH (person:Person),(house:House),(spouse:Person)
-WHERE house.name = "Lannister" AND (
+MATCH (house:House) WHERE house.name = "Lannister"
+OPTIONAL MATCH (person:Person) WHERE (
         person.name = "Cersei Lannister" OR
         person.name = "Jaime Lannister" OR
         person.name = "Tyrion Lannister" OR
@@ -313,7 +313,9 @@ WHERE house.name = "Lannister" AND (
         person.name = "Tygett Lannister" OR
         person.name = "Tyrek Lannister" OR
         person.name = "Gerion Lannister" OR
-        person.name = "Genna Lannister" OR
+        person.name = "Genna Lannister"
+    )
+OPTIONAL MATCH (spouse:Person) WHERE (
         spouse.name = "Dorna Swyft" OR
         spouse.name = "Darlessa Marbrand" OR
         spouse.name = "Ermesande Hayford"
@@ -322,23 +324,25 @@ MERGE (person)-[:OF_HOUSE]->(house)
 MERGE (spouse)-[:MARRIED_INTO_HOUSE]->(house);
 
 // House Frey
-MATCH (person:Person),(house:House),(spouse:Person)
-WHERE house.name = "Frey" AND (
+MATCH (house:House) WHERE house.name = "Frey"
+OPTIONAL MATCH (person:Person) WHERE (
         person.name = "Emmon Frey" OR
         person.name = "Tywin Frey" OR
         person.name = "Willem Frey" OR
         person.name = "Lyonel Frey" OR
         person.name = "Tion Frey" OR
         person.name = "Red Walder Frey" OR
-        person.name = "Cleos Frey" OR
+        person.name = "Cleos Frey"
+    )
+OPTIONAL MATCH (spouse:Person) WHERE (
         spouse.name = "Genna Lannister"
     )
 MERGE (person)-[:OF_HOUSE]->(house)
 MERGE (spouse)-[:MARRIED_INTO_HOUSE]->(house);
 
 // House Tyrell
-MATCH (person:Person),(house:House)
-WHERE house.name = "Tyrell" AND (
+MATCH (house:House) WHERE house.name = "Tyrell"
+OPTIONAL MATCH (person:Person) WHERE  (
         person.name = "Mace Tyrell" OR
         person.name = "Loras Tyrell" OR
         person.name = "Margaery Tyrell" OR
