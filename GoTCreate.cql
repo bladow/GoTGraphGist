@@ -8,6 +8,7 @@ MERGE (:House {name:"Florent"});
 MERGE (:House {name:"Estermont"});
 MERGE (:House {name:"Greyjoy"});
 MERGE (:House {name:"Harlaw"});
+MERGE (:House {name:"Swyft"});
 
 // CREATE crimes
 MERGE (:Crime {name:"High Treason"});
@@ -362,6 +363,12 @@ OPTIONAL MATCH (person:Person) WHERE (
 )
 MERGE (person)-[:OF_HOUSE]->(house);
 
+// House Swyft
+MATCH (house:House) WHERE house.name = "Swyft"
+OPTIONAL MATCH (person:Person) WHERE (
+      person.name = "Dorna Swyft"
+)
+MERGE (person)-[:OF_HOUSE]->(house);
 
 // People with honorific "Ser" and no other title
 MATCH (honor:Honor) WHERE honor.title = "Ser"
