@@ -523,6 +523,8 @@ MATCH (person:Person),(honor:Honor)
 WHERE person.name = "Shireen Baratheon" AND
         honor.title = "Princess"
 MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Show relationship to Patchface
 MATCH (person:Person),(fool:Person)
 WHERE person.name = "Shireen Baratheon" AND
     fool.name = "Patchface"
@@ -536,7 +538,7 @@ MERGE (person)-[:MEMBER_OF]->(bank);
 
 // Salladhar Saan
 MATCH (person:Person),(honor:Honor)
-WHERE person.name = "Davos Seaworth" AND
+WHERE person.name = "Salladhar Saan" AND
     honor.title = "Master of the Valyrian"
 MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
 
