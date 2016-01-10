@@ -922,7 +922,8 @@ MERGE (person)-[:TWIN_TO]->(twin);
 
 // Janei Lannister
 
-//TODO Robert Baratheon
+// Robert Baratheon
+
 
 // Genna Lannister
 MATCH (wife:Person), (husband:Person)
