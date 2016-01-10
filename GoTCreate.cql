@@ -820,7 +820,7 @@ WHERE person.name = "Jaime Lannister" AND (
     )
 MERGE (person)-[:MEMBER_OF {owner:"Tommen Baratheon"}]->(group);
 
-// Jamie and Cersei's children
+// Jaime and Cersei's children
 MATCH (mother:Person), (child:Person), (father:Person)
 WHERE mother.name = "Cersei Lannister" AND
 father.name = "Jaime Lannister" AND (
