@@ -47,6 +47,7 @@ MERGE (:Honor {title:"Squire"});
 MERGE (:Honor {title:"Ser"});
 MERGE (:Honor {title:"Page"});
 MERGE (:Honor {title:"Lord"});
+MERGE (:Honor {title:"Lady"});
 //TODO: Make all Lord's generic Lords
 MERGE (:Honor {title:"Queen Dowager"});
 MERGE (:Honor {title:"Lady of Casterly Rock"});
@@ -571,7 +572,14 @@ WHERE person.name = "Selyse Florent" AND (
         sword.name = "Brus Buckler"
     )
 MERGE (sword)-[:SWORN_SWORD_OF]->(person);
+
 // Melisandre of Asshai
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Melisandre of Asshai" AND (
+        honor.title = "The Red Woman" OR
+        honor.title = "Lady"
+    )
+MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
 
 // Gilly
 MATCH (child:Person),(mother:Person),(father:Person)
@@ -614,11 +622,7 @@ WHERE stannis.name = "Stannis Baratheon" AND (
         sword.name = "Harys Cobb"
     )
 MERGE (sword)-[:SWORN_SWORD_OF]->(stannis);
-// Melisandre of Asshai
-MATCH (person:Person),(honor:Honor)
-WHERE person.name = "Melisandre of Asshai" AND
-        honor.title = "The Red Woman"
-MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
+
 
 // Stannis Squires
 MATCH (person:Person),(squire:Person)
