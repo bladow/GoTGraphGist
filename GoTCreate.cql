@@ -985,15 +985,15 @@ MERGE (child)-[:CHILD_OF]->(mother);
 // Tyrek Lannister
 
 MATCH (wife:Person), (husband:Person)
-WHERE wife.name = "Ermesande Hayfor" AND
+WHERE wife.name = "Ermesande Hayford" AND
     husband.name = "Tyrek Lannister"
 MERGE (wife)-[:MARRIED_TO]->(husband);
 
 // Ermesande Hayford
 
 // Gerion Lannister
-MATCH (person:Person),(child:Person)
-WHERE person.name = "Gerion Lannister" AND
+MATCH (father:Person),(child:Person)
+WHERE father.name = "Gerion Lannister" AND
     child.name = "Joy Hill"
 MERGE (child)-[:CHILD_OF]->(father);
 
