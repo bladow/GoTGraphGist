@@ -1182,15 +1182,6 @@ WHERE person.name = "Rennifer Longwaters" AND
     group.name = "Court"
 MERGE (person)-[:MEMBER_OF {owner:"Tommen Baratheon",job:"Chief undergaoler of the Red Keep Dungeons"}]->(group);
 
-// Mark Mullendore
-
-// Tallad the Tall
-
-// Lambert Turnberry
-
-// Bayard Norcross
-
-// Hugh Clifton
 
 // Jalabhar Xho
 MATCH (person:Person),(honor:Honor)
@@ -1203,11 +1194,16 @@ WHERE person.name = "Jalabhar Xho" AND
     place.name = "Summer Isles"
 MERGE (person)-[:EXILED_FROM]->(place);
 
+// Mark Mullendore
+// Tallad the Tall
+// Lambert Turnberry
+// Bayard Norcross
+// Hugh Clifton
 // Horas Redwyne
-
 // Hobber Redwyne
-
 // Osney Kettleblack
+
+// TODO: Add the rest of Tommen's court
 
 MATCH (person:Person),(group:Group)
 WHERE person.name = "Osney Kettleblack" AND
