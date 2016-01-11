@@ -1159,10 +1159,7 @@ MERGE (person)-[:MEMBER_OF {owner:"Tommen Baratheon",job:"Captain in the City Wa
 
 // Noho Dimittis
 MATCH (person:Person),(court:Group),(bank:Group)
-WHERE person.name = "Noho Dimittis" AND (
-        court.name = "Court" OR
-        bank.name = "Iron Bank of Braavos"
-)
+WHERE person.name = "Noho Dimittis" AND court.name = "Court" AND bank.name = "Iron Bank of Braavos"
 MERGE (person)-[:MEMBER_OF {owner:"Tommen Baratheon",job:"Envoy"}]->(court)
 MERGE (person)-[:MEMBER_OF]->(bank);
 
