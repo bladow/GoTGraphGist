@@ -1007,6 +1007,8 @@ MATCH (person:Person),(group:Group)
 WHERE person.name = "Mace Tyrell" AND
     group.name = "Small Council"
 MERGE (person)-[:MEMBER_OF {owner:"Tommen Baratheon"}]->(group);
+// TODO House Tyrell
+
 
 // Grand Maester Pycelle
 MATCH (person:Person),(group:Group)
