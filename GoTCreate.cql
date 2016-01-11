@@ -1201,10 +1201,11 @@ MERGE (person)-[:EXILED_FROM]->(place);
 // Hugh Clifton
 // Horas Redwyne
 // Hobber Redwyne
-// Osney Kettleblack
+
 
 // TODO: Add the rest of Tommen's court
 
+// Osney Kettleblack
 MATCH (person:Person),(group:Group)
 WHERE person.name = "Osney Kettleblack" AND
     group.name = "The Faith"
