@@ -244,7 +244,20 @@ MERGE (:Person {name:"Theon Greyjoy"});
 MERGE (:Person {name:"Erik Ironmaker"});
 MERGE (:Person {name:"Victarion Greyjoy"});
 MERGE (:Person {name:"Aeron Greyjoy"});
-//MERGE (:Person {name:""});
+
+MERGE (:Person {name:"Torwold Browntooth"});
+MERGE (:Person {name:"Pinchface Jon Myre"});
+MERGE (:Person {name:"Rodrik Freeborn"});
+MERGE (:Person {name:"The Red Oarsman"});
+MERGE (:Person {name:"Left-Hand Lucas Codd"});
+MERGE (:Person {name:"Quellon Humble"});
+MERGE (:Person {name:"Harren Half-Hoare"});
+MERGE (:Person {name:"Kemmett Pyke The Bastard"});
+MERGE (:Person {name:"Qarl the Thrall"});
+MERGE (:Person {name:"Stonehand"});
+MERGE (:Person {name:"Ralf The Shepherd"});
+MERGE (:Person {name:"Ralf of Lordsport"});
+MERGE (:Person {name:"Cragorn", alive:false});
 
 
 // List out all of the Houses and who belongs to them
@@ -527,6 +540,31 @@ WHERE person.name = "Euron Greyjoy" AND (
         honor.title = "Crow's Eye"
     )
 MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Euron Sworn Swords
+MATCH (euron:Person),(sword:Person)
+WHERE euron.name = "Euron Greyjoy" AND (
+    sword.name = "Torwold Browntooth" OR
+    sword.name = "Pinchface Jon Myre" OR
+    sword.name = "Rodrik Freeborn" OR
+    sword.name = "The Red Oarsman" OR
+    sword.name = "Left-Hand Lucas Codd" OR
+    sword.name = "Quellon Humble" OR
+    sword.name = "Harren Half-Hoare" OR
+    sword.name = "Kemmett Pyke The Bastard" OR
+    sword.name = "Qarl the Thrall" OR
+    sword.name = "Stonehand" OR
+    sword.name = "Ralf The Shepherd" OR
+    sword.name = "Ralf of Lordsport"
+  )
+MERGE (sword)-[:SWORN_SWORD_OF]->(euron);
+
+// Euron Crewmen
+MATCH (euron:Person),(crew:Person)
+WHERE euron.name = "Euron Greyjoy" AND (
+    crew.name = "Cragorn"
+  )
+MERGE (crew)-[:CREW_TO]->(euron);
 
 // Axell Florent
 MATCH (person:Person),(honor:Honor)
