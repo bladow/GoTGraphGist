@@ -99,6 +99,7 @@ MERGE (:Honor {title:"Lord Captain of the Iron Fleet"});
 MERGE (:Honor {title:"Master of the Iron Victory"});
 MERGE (:Honor {title:"Damphair"});
 MERGE (:Honor {title:"Giantslayer"});
+MERGE (:Honor {title:"King of Salt and Rock"})
 
 // CREATE animals
 MERGE (:Animal {name:"Ser Pounce",type:"Kitten"});
@@ -520,6 +521,7 @@ WHERE person.name = "Euron Greyjoy" AND (
         honor.title = "The Third of His Name Since the Grey King" OR
         honor.title = "King of the Iron Islands and the North" OR
         honor.title = "Son of the Sea Wind" OR
+        honor.title = "King of Salt and Rock" OR
         honor.title = "Lord Reaper of Pyke" OR
         honor.title = "Captain of the Silence" OR
         honor.title = "Crow's Eye"
