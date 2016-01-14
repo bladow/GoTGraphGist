@@ -28,6 +28,11 @@ MERGE (:Place {name:"Eastwatch-by-the-Sea"});
 MERGE (:Place {name:"Dreadfort"});
 MERGE (:Place {name:"Castle Black"});
 MERGE (:Place {name:"Shield Islands"});
+MERGE (:Place {name:"Moat Cailin"});
+MERGE (:Place {name:"Torrhen's Square"});
+MERGE (:Place {name:"Deepwood Motte"});
+MERGE (:Place {name:"Castellan and Commander"});
+MERGE (:Place {name:""});
 
 
 // CREATE groups
@@ -134,7 +139,9 @@ MERGE (:Honor {title:"Lord of Oakenshield"});
 MERGE (:Honor {title:"Lord of Greenshield"});
 MERGE (:Honor {title:"Lord of Greyshield"});
 MERGE (:Honor {title:"Knight of Grey Gardens"});
-
+MERGE (:Honor {title:"Cleftjaw"});
+MERGE (:Honor {title:"Captain of Foamdrinker"});
+MERGE (:Honor {title:""});
 
 
 
@@ -316,6 +323,10 @@ MERGE (:Person {name:"Andrik The Unsmiling"});
 MERGE (:Person {name:"Nute the Barber"});
 MERGE (:Person {name:"Maron Volmark"});
 MERGE (:Person {name:"Harras Harlaw"});
+MERGE (:Person {name:"Ralf Kenning"});
+MERGE (:Person {name:"Adrack Humble"});
+MERGE (:Person {name:"Dagon Codd"});
+MERGE (:Person {name:"Dagmer"});
 MERGE (:Person {name:""});
 
 // List out all of the Houses and who belongs to them
@@ -647,6 +658,41 @@ WHERE euron.name = "Euron Greyjoy" AND (
     banner.name = "Gylbert Farwynd"
   )
 MERGE (banner)-[:BANNERMAN_OF]->(euron);
+
+// Torrhen's Square
+MATCH (place:Place), (person:Person) WHERE
+place.name = "Torrhen's Square" AND (
+  person.name = "Dagmer"
+)
+MERGE (person)-[:LIVES_IN]->(place);
+
+// Dagmer
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Dagmer" AND (
+        honor.title = "Cleftjaw" OR
+        honor.title = "Captain of Foamdrinker"
+    )
+MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Moat Cailin
+MATCH (place:Place), (person:Person) WHERE
+place.name = "Moat Cailin" AND (
+  person.name = "Ralf Kenning" OR
+  person.name = "Adrack Humble" OR
+  person.name = "Dagon Codd"
+)
+MERGE (person)-[:LIVES_IN]->(place);
+
+// Ralf Kenning
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Ralf Kenning" AND (
+        honor.title = "Castellan and Commander"
+    )
+MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Adrack Humble
+
+//Dagon Codd
 
 // Shield Islands
 MATCH (place:Place), (person:Person) WHERE
