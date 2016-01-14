@@ -26,7 +26,7 @@ MERGE (:Place {name:"Summer Isles"});
 MERGE (:Place {name:"Stokeworth"});
 MERGE (:Place {name:"Eastwatch-by-the-Sea"});
 MERGE (:Place {name:"Dreadfort"});
-MERGE (:Place {name:"Castle Black"})
+MERGE (:Place {name:"Castle Black"});
 
 // CREATE groups
 MERGE (:Group {name:"Small Council"});
@@ -663,6 +663,8 @@ WHERE person.name = "Stannis Baratheon" AND (
         honor.title = "Lord of Dragonstone"
     )
 MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Castle Black
 MATCH (place:Place), (person:Person) WHERE
 place.name = "Castle Black" AND (
   person.name = "Stannis Baratheon" OR
@@ -678,12 +680,14 @@ place.name = "Castle Black" AND (
   person.name = "Humfrey Clifton" OR
   person.name = "Ormund Wylde" OR
   person.name = "Harys Cobb"
-
 )
+MERGE (person)-[:LIVES_IN]->(place);
+
 // Godry Farring
 MATCH (person:Person),(honor:Honor)
-WHERE person.name = "Stannis Baratheon" AND honor.title = "Giantslayer"
+WHERE person.name = "Godry Farring" AND honor.title = "Giantslayer"
 MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
+
 // Steffon Baratheon
 MATCH (husband:Person), (wife:Person),(child:Person)
 WHERE husband.name = "Steffon Baratheon" AND
