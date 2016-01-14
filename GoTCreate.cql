@@ -499,7 +499,7 @@ MERGE (person)-[:MARRIED_TO]->(husband);
 
 // Balon Greyjoy
 MATCH (person:Person),(honor:Honor),(wife:Person),(child:Person)
-WHERE person.name = "Euron Greyjoy" AND (
+WHERE person.name = "Balon Greyjoy" AND (
         honor.title = "The Ninth of His Name Since the Grey King" OR
         honor.title = "King of the Iron Islands and the North"
     ) AND
