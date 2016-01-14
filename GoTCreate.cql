@@ -100,7 +100,10 @@ MERGE (:Honor {title:"Master of the Iron Victory"});
 MERGE (:Honor {title:"Damphair"});
 MERGE (:Honor {title:"Giantslayer"});
 MERGE (:Honor {title:"King of Salt and Rock"})
-
+MERGE (:Honor {title:"Erik Anvil-Breaker"});
+MERGE (:Honor {title:"Erik The Just"});
+MERGE (:Honor {title:"Lord Steward of the Iron Islands"});
+MERGE (:Honor {title:"Castellan of Pyke"});
 // CREATE animals
 MERGE (:Animal {name:"Ser Pounce",type:"Kitten"});
 MERGE (:Animal {name:"Lady Whiskers",type:"Kitten"});
@@ -565,6 +568,16 @@ WHERE euron.name = "Euron Greyjoy" AND (
     crew.name = "Cragorn"
   )
 MERGE (crew)-[:CREW_TO]->(euron);
+
+// Erik Ironmaker
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Erik Ironmaker" AND (
+        honor.title = "Erik Anvil-Breaker" OR
+        honor.title = "Erik The Just" OR
+        honor.title = "Lord Steward of the Iron Islands" OR
+        honor.title = "Castellan of Pyke"
+    )
+MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
 
 // Axell Florent
 MATCH (person:Person),(honor:Honor)
