@@ -104,6 +104,34 @@ MERGE (:Honor {title:"Erik Anvil-Breaker"});
 MERGE (:Honor {title:"Erik The Just"});
 MERGE (:Honor {title:"Lord Steward of the Iron Islands"});
 MERGE (:Honor {title:"Castellan of Pyke"});
+MERGE (:Honor {title:"Lord of Pyke"});
+MERGE (:Honor {title:"Lord of Lordsport"});
+MERGE (:Honor {title:"Lord of Iron Holt"});
+MERGE (:Honor {title:"Lord of Old Wyk"});
+MERGE (:Honor {title:"The Drumm"});
+MERGE (:Honor {title:"The Stonehouse"});
+MERGE (:Honor {title:"Lord of Great Wyk"});
+MERGE (:Honor {title:"Lord of the Hammerhorn"});
+MERGE (:Honor {title:"Lord of Sealskin Point"});
+MERGE (:Honor {title:"Lord of Orkmont"});
+MERGE (:Honor {title:"Orkwood of Orkmont"});
+MERGE (:Honor {title:"Lord of Saltcliffe"});
+MERGE (:Honor {title:"Lord of Harlaw"});
+MERGE (:Honor {title:"The Reader"});
+MERGE (:Honor {title:"Lord of Ten Towers"});
+MERGE (:Honor {title:"Harlaw of Harlaw"});
+MERGE (:Honor {title:"Sigfryd Silverhair"});
+MERGE (:Honor {title:"Master of Harlaw Hall"});
+MERGE (:Honor {title:"Hotho Humpback"});
+MERGE (:Honor {title:"Boremund The Blue"});
+MERGE (:Honor {title:"Master of Harridan Hill"});
+MERGE (:Honor {title:"Lord of the lesser isles and rocks"});
+MERGE (:Honor {title:"Lord of the Lonely Light"});
+
+
+
+
+
 // CREATE animals
 MERGE (:Animal {name:"Ser Pounce",type:"Kitten"});
 MERGE (:Animal {name:"Lady Whiskers",type:"Kitten"});
@@ -261,7 +289,25 @@ MERGE (:Person {name:"Stonehand"});
 MERGE (:Person {name:"Ralf The Shepherd"});
 MERGE (:Person {name:"Ralf of Lordsport"});
 MERGE (:Person {name:"Cragorn", alive:false});
-
+MERGE (:Person {name:"Germund Botley"});
+MERGE (:Person {name:"Waldon Wynch"});
+MERGE (:Person {name:"Dunstan Drumm"});
+MERGE (:Person {name:"Norne Goodbrother"});
+MERGE (:Person {name:"Gorold Goodbrother"});
+MERGE (:Person {name:"Triston Farwynd"});
+MERGE (:Person {name:"Meldred Merlyn"});
+MERGE (:Person {name:"The Sparr"});
+MERGE (:Person {name:"Alyn Orkwood"});
+MERGE (:Person {name:"Balon Tawney"});
+MERGE (:Person {name:"Donnor Saltcliffe"});
+MERGE (:Person {name:"Sunderly"});
+MERGE (:Person {name:"Rodrik Harlaw"});
+MERGE (:Person {name:"Sigfryd Harlaw"});
+MERGE (:Person {name:"Hotho Harlaw"});
+MERGE (:Person {name:"Boremund Harlaw"});
+MERGE (:Person {name:"Gylbert Farwynd"});
+MERGE (:Person {name:""});
+MERGE (:Person {name:""});
 
 // List out all of the Houses and who belongs to them
 // House Baratheon
@@ -568,6 +614,168 @@ WHERE euron.name = "Euron Greyjoy" AND (
     crew.name = "Cragorn"
   )
 MERGE (crew)-[:CREW_TO]->(euron);
+
+//Euron Bannermen
+MATCH (euron:Person),(banner:Person)
+WHERE euron.name = "Euron Greyjoy" AND (
+    banner.name = "Erik Ironmaker" OR
+    banner.name = "Germund Botley" OR
+    banner.name = "Waldon Wynch" OR
+    banner.name = "Dunstan Drumm" OR
+    banner.name = "Norne Goodbrother" OR
+    banner.name = "Gorold Goodbrother" OR
+    banner.name = "Triston Farwynd" OR
+    banner.name = "The Sparr" OR
+    banner.name = "Meldred Merlyn" OR
+    banner.name = "Alyn Orkwood" OR
+    banner.name = "Balon Tawney" OR
+    banner.name = "Donnor Saltcliffe" OR
+    banner.name = "Sunderly" OR
+    banner.name = "Rodrik Harlaw" OR
+    banner.name = "Sigfryd Harlaw" OR
+    banner.name = "Hotho Harlaw" OR
+    banner.name = "Boremund Harlaw" OR
+    banner.name = "Gylbert Farwynd"
+  )
+MERGE (banner)-[:BANNERMAN_OF]->(euron);
+
+// Rodrik Harlaw
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Rodrik Harlaw" AND (
+        honor.title = "Lord of Harlaw" OR
+        honor.title = "The Reader" OR
+        honor.title = "Lord of Ten Towers" OR
+        honor.title = "Harlaw of Harlaw"
+    )
+MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Sigfryd Harlaw
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Sigfryd Harlaw" AND (
+        honor.title = "Lord of Harlaw" OR
+        honor.title = "Sigfryd Silverhair" OR
+        honor.title = "Master of Harlaw Hall"
+    )
+MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Hotho Harlaw
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Hotho Harlaw" AND (
+        honor.title = "Lord of Harlaw" OR
+        honor.title = "Hotho Humpback"
+    )
+MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Boremund Harlaw
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Boremund Harlaw" AND (
+        honor.title = "Lord of Harlaw" OR
+        honor.title = "Boremund The Blue"
+    )
+MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Gylbert Farwynd
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Gylbert Farwynd" AND (
+        honor.title = "Lord of the lesser isles and rocks" OR
+        honor.title = "Lord of the Lonely Light"
+    )
+MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Donnor Saltcliffe
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Donnor Saltcliffe" AND (
+        honor.title = "Lord of Saltcliffe"
+    )
+MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Sunderly
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Sunderly" AND (
+        honor.title = "Lord of Saltcliffe" OR
+        honor.title = "Lord"
+    )
+MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Alyn Orkwood
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Alyn Orkwood" AND (
+        honor.title = "Lord of Orkmont" OR
+        honor.title = "Orkwood of Orkmont"
+    )
+MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Balon Tawney
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Balon Tawney" AND (
+        honor.title = "Lord of Orkmont" OR
+        honor.title = "Lord"
+    )
+MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Gorold Goodbrother
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Gorold Goodbrother" AND (
+        honor.title = "Lord of Great Wyk" OR
+        honor.title = "Lord of the Hammerhorn"
+    )
+MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Triston Farwynd
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Triston Farwynd" AND (
+        honor.title = "Lord of Great Wyk" OR
+        honor.title = "Lord of Sealskin Point"
+    )
+MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// The Sparr
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "The Sparr" AND (
+        honor.title = "Lord of Great Wyk"
+    )
+MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Meldred Merlyn
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Meldred Merlyn" AND (
+        honor.title = "Lord of Great Wyk" OR
+        honor.title = "Lord of Pebbleton"
+    )
+MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+
+// Dunstan Drumm
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Dunstan Drumm" AND (
+        honor.title = "Lord of Old Wyk" OR
+        honor.title = "The Drumm"
+    )
+MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Norne Goodbrother
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Norne Goodbrother" AND (
+        honor.title = "Lord of Old Wyk" OR
+        honor.title = "The Stonehouse"
+    )
+MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Germund Botley
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Germund Botley" AND (
+        honor.title = "Lord of Pyke" OR
+        honor.title = "Lord of Lordsport"
+    )
+MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Waldon Wynch
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Waldon Wynch" AND (
+        honor.title = "Lord of Pyke" OR
+        honor.title = "Lord of Lordsport"
+    )
+MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
 
 // Erik Ironmaker
 MATCH (person:Person),(honor:Honor)
