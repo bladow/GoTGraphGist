@@ -97,7 +97,7 @@ MERGE (:Honor {title:"Theon Turncloak"});
 MERGE (:Honor {title:"Lord Captain of the Iron Fleet"});
 MERGE (:Honor {title:"Master of the Iron Victory"});
 MERGE (:Honor {title:"Damphair"});
-
+MERGE (:Honor {title:"Giantslayer"});
 
 // CREATE animals
 MERGE (:Animal {name:"Ser Pounce",type:"Kitten"});
