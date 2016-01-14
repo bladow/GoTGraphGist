@@ -153,7 +153,12 @@ MERGE (:Honor {title:"Lord of Harrenhal"});
 MERGE (:Honor {title:"Lord Paramount of the Trident"});
 MERGE (:Honor {title:"Lord Protector of the Vale"});
 MERGE (:Honor {title:"Captain of the guards at the Eyrie"});
-MERGE (:Honor {title:""});
+MERGE (:Honor {title:"Kettleblack"});
+MERGE (:Honor {title:"The Mad Mouse"});
+MERGE (:Honor {title:"Bronze Yohn"});
+MERGE (:Honor {title:"Lord of Runestone"});
+MERGE (:Honor {title:"High Steward of the Vale"});
+MERGE (:Honor {title:"Castellan of the Gates of the Moon"});
 MERGE (:Honor {title:""});
 MERGE (:Honor {title:""});
 
@@ -365,7 +370,23 @@ MERGE (:Person {name:"Petyr Baelish"});
 MERGE (:Person {name:"Alayne Stone"}); // Sansa Stark
 MERGE (:Person {name:"Sansa Stark"});
 MERGE (:Person {name:"Lothor Brune"});
+MERGE (:Person {name:"Oswell"});
+MERGE (:Person {name:"Shadrick of the Shady Glen"});
+MERGE (:Person {name:"Byron the Beautiful"});
+MERGE (:Person {name:"Morgarth the Merry"});
+MERGE (:Person {name:"Gretchel"});
+MERGE (:Person {name:"Maester Colemon"});
+MERGE (:Person {name:"Mord"});
+MERGE (:Person {name:"Maddy"});
+MERGE (:Person {name:"Mela"});
+MERGE (:Person {name:"Yohn Royce"});
+MERGE (:Person {name:"Andar Royce"});
+MERGE (:Person {name:"Myranda Royce"});
+MERGE (:Person {name:"Randa Royce"});
+MERGE (:Person {name:"Nestor Royce"});
+MERGE (:Person {name:"Albar Royce"});
 MERGE (:Person {name:""});
+
 
 
 
@@ -557,6 +578,9 @@ OPTIONAL MATCH (person:Person) WHERE (
         person.name = "Malgorn of Redpool" OR
         person.name = "Lambert Whitewater" OR
         person.name = "Perkin Follard" OR
+        person.name = "Byron the Beautiful" OR
+        person.name = "Morgarth the Merry" OR
+        person.name = "Andar Royce" OR
         person.name = "Brus Buckler"
     )
 MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
@@ -614,6 +638,41 @@ WHERE person.name = "Robert Arryn" AND (
     )
 MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
 
+// Robert Bannermen
+MATCH (euron:Person),(banner:Person)
+WHERE euron.name = "Robert Arryn" AND (
+    banner.name = "Yohn Royce" OR
+    banner.name = "" OR
+  )
+MERGE (banner)-[:BANNERMAN_OF]->(euron);
+
+// Nestor Royce
+MATCH (person:Person),(honor:Honor), (child:Person)
+WHERE person.name = "Nestor Royce" AND (
+        honor.title = "Lord" OR
+        honor.title = "High Steward of the Vale" OR
+        honor.title = "Castellan of the Gates of the Moon"
+    ) AND (
+        child.name = "Albar Royce" OR
+        child.name = "Myranda Royce" OR
+        child.name = "Randa Royce"
+    )
+MERGE (person)-[:HOLDS_HONOR_OF]->(honor)
+MERGE (child)-[:CHILD_OF]->(person);
+
+
+// Yohn Royce
+MATCH (person:Person),(honor:Honor), (child:Person)
+WHERE person.name = "Yohn Royce" AND (
+        honor.title = "Bronze Yohn" OR
+        honor.title = "Lord of Runestone"
+    )
+    AND child.name = "Andar Royce"
+MERGE (person)-[:HOLDS_HONOR_OF]->(honor)
+MERGE (child)-[:CHILD_OF]->(person);
+
+// Andar Royce
+
 // Lysa Tully
 MATCH (person:Person),(husband:Person),(child:Person)
 WHERE person.name = "Lysa Tully" AND (
@@ -652,6 +711,23 @@ WHERE person.name = "Lothor Brune" AND (
         honor.title = "Captain of the guards at the Eyrie"
     )
 MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Oswell
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Oswell" AND (
+        honor.title = "Kettleblack"
+    )
+MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Shadrick of the Shady Glen
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Shadrick of the Shady Glen" AND (
+        honor.title = "Ser" OR
+        honor.title = "The Mad Mouse"
+    )
+MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+//
 
 // Aeron Greyjoy
 MATCH (person:Person),(honor:Honor),(god:Group)
