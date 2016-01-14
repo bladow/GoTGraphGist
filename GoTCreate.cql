@@ -9,6 +9,9 @@ MERGE (:House {name:"Estermont"});
 MERGE (:House {name:"Greyjoy"});
 MERGE (:House {name:"Harlaw"});
 MERGE (:House {name:"Swyft"});
+MERGE (:House {name:"Arryn"});
+MERGE (:House {name:""});
+
 
 // CREATE crimes
 MERGE (:Crime {name:"High Treason"});
@@ -141,7 +144,19 @@ MERGE (:Honor {title:"Lord of Greyshield"});
 MERGE (:Honor {title:"Knight of Grey Gardens"});
 MERGE (:Honor {title:"Cleftjaw"});
 MERGE (:Honor {title:"Captain of Foamdrinker"});
+MERGE (:Honor {title:"Dagon the Drunkard"});
+MERGE (:Honor {title:"Lord of the Eyrie"});
+MERGE (:Honor {title:"Defender of the Vale"});
+MERGE (:Honor {title:"Sweetrobin"});
+MERGE (:Honor {title:"Littlefinger"});
+MERGE (:Honor {title:"Lord of Harrenhal"});
+MERGE (:Honor {title:"Lord Paramount of the Trident"});
+MERGE (:Honor {title:"Lord Protector of the Vale"});
+MERGE (:Honor {title:"Captain of the guards at the Eyrie"});
 MERGE (:Honor {title:""});
+MERGE (:Honor {title:""});
+MERGE (:Honor {title:""});
+
 
 
 
@@ -327,7 +342,32 @@ MERGE (:Person {name:"Ralf Kenning"});
 MERGE (:Person {name:"Adrack Humble"});
 MERGE (:Person {name:"Dagon Codd"});
 MERGE (:Person {name:"Dagmer"});
+MERGE (:Person {name:"Qarl The Maid"});
+MERGE (:Person {name:"Tristifer Botley"});
+MERGE (:Person {name:"Roggon Rustbeard"});
+MERGE (:Person {name:"Grimtongue"});
+MERGE (:Person {name:"Rolfe the Dwarf"});
+MERGE (:Person {name:"Lorren Longaxe"});
+MERGE (:Person {name:"Rook"});
+MERGE (:Person {name:"Fingers"});
+MERGE (:Person {name:"Six-Toed Harl"});
+MERGE (:Person {name:"Droopeye Dale"});
+MERGE (:Person {name:"Earl Harlaw"});
+MERGE (:Person {name:"Cromm"});
+MERGE (:Person {name:"Hagen the Horn"});
+MERGE (:Person {name:"Quenton Greyjoy"});
+MERGE (:Person {name:"Dagon Greyjoy"});
+
+MERGE (:Person {name:"Robert Arryn"});
+MERGE (:Person {name:"Lysa Tully",alive:false});
+MERGE (:Person {name:"Jon Arryn"});
+MERGE (:Person {name:"Petyr Baelish"});
+MERGE (:Person {name:"Alayne Stone"}); // Sansa Stark
+MERGE (:Person {name:"Sansa Stark"});
+MERGE (:Person {name:"Lothor Brune"});
 MERGE (:Person {name:""});
+
+
 
 // List out all of the Houses and who belongs to them
 // House Baratheon
@@ -372,7 +412,10 @@ OPTIONAL MATCH (person:Person) WHERE (
         person.name = "Asha Greyjoy" OR
         person.name = "Theon Greyjoy" OR
         person.name = "Victarion Greyjoy" OR
-        person.name = "Aeron Greyjoy"
+        person.name = "Aeron Greyjoy" OR
+        person.name = "Quenton Greyjoy" OR
+        person.name = "Dagon Greyjoy"
+
     )
 OPTIONAL MATCH (spouse:Person) WHERE (
         spouse.name = "Alannys Greyjoy" OR
@@ -380,6 +423,25 @@ OPTIONAL MATCH (spouse:Person) WHERE (
     )
 MERGE (person)-[:OF_HOUSE]->(house)
 MERGE (spouse)-[:MARRIED_INTO_HOUSE]->(house);
+
+// House Arryn
+MATCH (house:House) WHERE house.name = "Arryn"
+OPTIONAL MATCH (person:Person) WHERE (
+        person.name = "Robert Arryn" OR
+        person.name = "Jon Arryn" OR
+        person.name = "" OR
+
+    )
+OPTIONAL MATCH (spouse:Person) WHERE (
+        spouse.name = "Lysa Tully" OR
+        spouse.name = "Petyr Baelish" OR
+        spouse.name = "" OR
+
+
+    )
+MERGE (person)-[:OF_HOUSE]->(house)
+MERGE (spouse)-[:MARRIED_INTO_HOUSE]->(house);
+
 
 // House Harlaw
 MATCH (house:House) WHERE house.name = "Harlaw"
@@ -543,6 +605,54 @@ OPTIONAL MATCH (person:Person) WHERE (
     )
 MERGE (person)-[:CURRENTLY_AT]->(place);
 
+// Robert Arryn
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Robert Arryn" AND (
+        honor.title = "Lord of the Eyrie" OR
+        honor.title = "Defender of the Vale" OR
+        honor.title = "Sweetrobin"
+    )
+MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Lysa Tully
+MATCH (person:Person),(husband:Person),(child:Person)
+WHERE person.name = "Lysa Tully" AND (
+        husband.name = "Jon Arryn" OR
+        husband.name = "Petyr Baelish"
+    ) AND
+    child.name = "Robert Arryn"
+MERGE (person)-[:MARRIED_TO]->(husband)
+MERGE (child)-[:CHILD_OF]->(person);
+
+// Jon Arryn
+MATCH (person:Person),(child:Person)
+WHERE person.name = "Jon Arryn"
+AND child.name = "Robert Arryn"
+MERGE (child)-[:CHILD_OF]->(person);
+
+// Petyr Baelish
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Petyr Baelish" AND (
+        honor.title = "Littlefinger" OR
+        honor.title = "Lord of Harrenhal" OR
+        honor.title = "Lord Paramount of the Trident" OR
+        honor.title = "Lord Protector of the Vale"
+    )
+MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Alayne Stone
+MATCH (person:Person),(alias:Person)
+WHERE person.name = "Alayne Stone" AND alias.name = "Sansa Stark"
+MERGE (alias)-[:ALIAS_OF]->(person);
+
+// Lothor Brune
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Lothor Brune" AND (
+        honor.title = "Ser" OR
+        honor.title = "Captain of the guards at the Eyrie"
+    )
+MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
+
 // Aeron Greyjoy
 MATCH (person:Person),(honor:Honor),(god:Group)
 WHERE person.name = "Aeron Greyjoy" AND
@@ -577,6 +687,40 @@ WHERE person.name = "Asha Greyjoy" AND (
     husband.name = "Erik Ironmaker"
 MERGE (person)-[:HOLDS_HONOR_OF]->(honor)
 MERGE (person)-[:MARRIED_TO]->(husband);
+
+// Asha Lovers
+MATCH (person:Person),(lover:Person)
+WHERE person.name = "Asha Greyjoy" AND (
+    lover.name = "Qarl The Maid" OR
+    lover.name = "Tristifer Botley"
+  )
+MERGE (lover)-[:LOVER_OF]->(person);
+// Qarl The Maid
+// Tristifer Botley
+
+// Asha Crewmen
+MATCH (person:Person),(crew:Person)
+WHERE person.name = "Asha Greyjoy" AND (
+    crew.name = "Roggon Rustbeard" OR
+    crew.name = "Grimtongue" OR
+    crew.name = "Rolfe the Dwarf" OR
+    crew.name = "Lorren Longaxe" OR
+    crew.name = "Rook" OR
+    crew.name = "Fingers" OR
+    crew.name = "Six-Toed Harl" OR
+    crew.name = "Droopeye Dale" OR
+    crew.name = "Earl Harlaw" OR
+    crew.name = "Cromm" OR
+    crew.name = "Hagen the Horn"
+  )
+MERGE (crew)-[:CREW_TO]->(person);
+
+// Dagon Greyjoy
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Dagon Greyjoy" AND (
+        honor.title = "Dagon the Drunkard"
+    )
+MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
 
 // Alannys Greyjoy
 
