@@ -27,6 +27,8 @@ MERGE (:Place {name:"Stokeworth"});
 MERGE (:Place {name:"Eastwatch-by-the-Sea"});
 MERGE (:Place {name:"Dreadfort"});
 MERGE (:Place {name:"Castle Black"});
+MERGE (:Place {name:"Shield Islands"});
+
 
 // CREATE groups
 MERGE (:Group {name:"Small Council"});
@@ -127,7 +129,11 @@ MERGE (:Honor {title:"Boremund The Blue"});
 MERGE (:Honor {title:"Master of Harridan Hill"});
 MERGE (:Honor {title:"Lord of the lesser isles and rocks"});
 MERGE (:Honor {title:"Lord of the Lonely Light"});
-
+MERGE (:Honor {title:"Lord of Southshield"});
+MERGE (:Honor {title:"Lord of Oakenshield"});
+MERGE (:Honor {title:"Lord of Greenshield"});
+MERGE (:Honor {title:"Lord of Greyshield"});
+MERGE (:Honor {title:"Knight of Grey Gardens"});
 
 
 
@@ -306,7 +312,10 @@ MERGE (:Person {name:"Sigfryd Harlaw"});
 MERGE (:Person {name:"Hotho Harlaw"});
 MERGE (:Person {name:"Boremund Harlaw"});
 MERGE (:Person {name:"Gylbert Farwynd"});
-MERGE (:Person {name:""});
+MERGE (:Person {name:"Andrik The Unsmiling"});
+MERGE (:Person {name:"Nute the Barber"});
+MERGE (:Person {name:"Maron Volmark"});
+MERGE (:Person {name:"Harras Harlaw"});
 MERGE (:Person {name:""});
 
 // List out all of the Houses and who belongs to them
@@ -638,6 +647,49 @@ WHERE euron.name = "Euron Greyjoy" AND (
     banner.name = "Gylbert Farwynd"
   )
 MERGE (banner)-[:BANNERMAN_OF]->(euron);
+
+// Shield Islands
+MATCH (place:Place), (person:Person) WHERE
+place.name = "Shield Islands" AND (
+  person.name = "Andrik The Unsmiling" OR
+  person.name = "Nute the Barber" OR
+  person.name = "Maron Volmark" OR
+  person.name = "Harras Harlaw"
+)
+MERGE (person)-[:LIVES_IN]->(place);
+
+// Andrik The Unsmiling
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Andrik The Unsmiling" AND (
+        honor.title = "Lord of Southshield"
+    )
+MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Nute the Barber
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Nute the Barber" AND (
+        honor.title = "Lord of Oakenshield"
+    )
+MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Maron Volmark
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Maron Volmark" AND (
+        honor.title = "Lord of Greenshield"
+    )
+MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Harras Harlaw
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Harras Harlaw" AND (
+        honor.title = "Lord of Greyshield" OR
+        honor.title = "Knight of Grey Gardens" OR
+        honor.title = "Ser"
+
+    )
+MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+//
 
 // Rodrik Harlaw
 MATCH (person:Person),(honor:Honor)
