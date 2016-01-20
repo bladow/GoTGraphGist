@@ -642,7 +642,9 @@ MERGE (person)-[:HOLDS_HONOR_OF]->(honor);
 MATCH (euron:Person),(banner:Person)
 WHERE euron.name = "Robert Arryn" AND (
     banner.name = "Yohn Royce" OR
+    banner.name = "Nestor Royce" OR
     banner.name = "" OR
+
   )
 MERGE (banner)-[:BANNERMAN_OF]->(euron);
 
