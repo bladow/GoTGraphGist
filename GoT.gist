@@ -1,0 +1,1930 @@
+= TITLE OF YOUR GRAPHGIST
+:neo4j-version: 2.3.0
+:author: Garrett Bladow
+
+//setup
+//hide
+[source,cypher]
+----
+// CREATE houses
+CREATE (:House {name:"Baratheon"});
+CREATE (:House {name:"Tyrell"});
+CREATE (:House {name:"Lannister"});
+CREATE (:House {name:"Frey"});
+CREATE (:House {name:"Florent"});
+CREATE (:House {name:"Estermont"});
+CREATE (:House {name:"Greyjoy"});
+CREATE (:House {name:"Harlaw"});
+CREATE (:House {name:"Swyft"});
+CREATE (:House {name:"Arryn"});
+CREATE (:House {name:""});
+
+
+// CREATE crimes
+CREATE (:Crime {name:"High Treason"});
+CREATE (:Crime {name:"Fornication"});
+CREATE (:Crime {name:"Regicide"});
+CREATE (:Crime {name:"Kinslaying"});
+
+// CREATE places
+CREATE (:Place {name:"Westeros"});
+CREATE (:Place {name:"Great Sept of Baelor"});
+CREATE (:Place {name:"Longtable"});
+CREATE (:Place {name:"Sea"});
+CREATE (:Place {name:"King's Landing"});
+CREATE (:Place {name:"Summer Isles"});
+CREATE (:Place {name:"Stokeworth"});
+CREATE (:Place {name:"Eastwatch-by-the-Sea"});
+CREATE (:Place {name:"Dreadfort"});
+CREATE (:Place {name:"Castle Black"});
+CREATE (:Place {name:"Shield Islands"});
+CREATE (:Place {name:"Moat Cailin"});
+CREATE (:Place {name:"Torrhen's Square"});
+CREATE (:Place {name:"Deepwood Motte"});
+CREATE (:Place {name:"Castellan and Commander"});
+CREATE (:Place {name:""});
+
+
+// CREATE groups
+CREATE (:Group {name:"Small Council"});
+CREATE (:Group {name:"Kingsguard"});
+CREATE (:Group {name:"Court"});
+CREATE (:Group {name:"The Faith"});
+CREATE (:Group {name:"R'hllor, the Lord of Light"});
+CREATE (:Group {name:"Lords of the Crownlands"});
+CREATE (:Group {name:"Iron Bank of Braavos"});
+CREATE (:Group {name:"Drowned God"});
+
+// CREATE honors
+CREATE (:Honor {title:"First of His Name"});
+CREATE (:Honor {title:"King of the Andals, the Rhoynar, and the First Men"});
+CREATE (:Honor {title:"Lord of the Seven Kingdoms"});
+CREATE (:Honor {title:"King"});
+CREATE (:Honor {title:"Princess"});
+CREATE (:Honor {title:"Squire"});
+CREATE (:Honor {title:"Ser"});
+CREATE (:Honor {title:"Page"});
+CREATE (:Honor {title:"Lord"});
+CREATE (:Honor {title:"Lady"});
+//TODO: Make all Lord's generic Lords
+CREATE (:Honor {title:"Queen Dowager"});
+CREATE (:Honor {title:"Lady of Casterly Rock"});
+CREATE (:Honor {title:"The Kingslayer"});
+CREATE (:Honor {title:"Lord Commander of the Kingsguard"});
+CREATE (:Honor {title:"The Imp"});
+CREATE (:Honor {title:"Lord of Casterly Rock"});
+CREATE (:Honor {title:"Warden of the West"});
+CREATE (:Honor {title:"Hand of the King"});
+CREATE (:Honor {title:"Lord Regent and Protector of the Realm"});
+CREATE (:Honor {title:"Hand of the King"});
+CREATE (:Honor {title:"Grand Admiral"});
+CREATE (:Honor {title:"Master of ships"});
+CREATE (:Honor {title:"Master of whispers"});
+CREATE (:Honor {title:"Lord treasurer"});
+CREATE (:Honor {title:"Master of coin"});
+CREATE (:Honor {title:"Justiciar"});
+CREATE (:Honor {title:"Master of laws"});
+CREATE (:Honor {title:"Knight of Flowers"});
+CREATE (:Honor {title:"The Mountain that Rides"});
+CREATE (:Honor {title:"Prince of the Red Flower Vale"});
+CREATE (:Honor {title:"Father of the Faithful"});
+CREATE (:Honor {title:"Voice of the Seven on Earth"});
+CREATE (:Honor {title:"Lord of Duskendale"});
+CREATE (:Honor {title:"Castellan of the Dun Fort"});
+CREATE (:Honor {title:"Lady of Stokeworth"});
+CREATE (:Honor {title:"Lord of Dragonstone"});
+CREATE (:Honor {title:"King of Westeros"});
+CREATE (:Honor {title:"The Red Woman"});
+CREATE (:Honor {title:"Queen"});
+CREATE (:Honor {title:"King-Beyond-the-Wall"});
+CREATE (:Honor {title:"Queen's Hand"});
+CREATE (:Honor {title:"Lord of the Rainwood"});
+CREATE (:Honor {title:"Admiral of the Narrow Sea"});
+CREATE (:Honor {title:"The Onion Knight"});
+CREATE (:Honor {title:"Master of the Valyrian"});
+CREATE (:Honor {title:"The Third of His Name Since the Grey King"});
+CREATE (:Honor {title:"The Ninth of His Name Since the Grey King"});
+CREATE (:Honor {title:"King of the Iron Islands and the North"});
+CREATE (:Honor {title:"Son of the Sea Wind"});
+CREATE (:Honor {title:"Lord Reaper of Pyke"});
+CREATE (:Honor {title:"Captain of the Silence"});
+CREATE (:Honor {title:"Crow's Eye"});
+CREATE (:Honor {title:"Captain of the Black Wind"});
+CREATE (:Honor {title:"Conqueror of Deepwood Motte"});
+CREATE (:Honor {title:"Theon Turncloak"});
+CREATE (:Honor {title:"Lord Captain of the Iron Fleet"});
+CREATE (:Honor {title:"Master of the Iron Victory"});
+CREATE (:Honor {title:"Damphair"});
+CREATE (:Honor {title:"Giantslayer"});
+CREATE (:Honor {title:"King of Salt and Rock"})
+CREATE (:Honor {title:"Erik Anvil-Breaker"});
+CREATE (:Honor {title:"Erik The Just"});
+CREATE (:Honor {title:"Lord Steward of the Iron Islands"});
+CREATE (:Honor {title:"Castellan of Pyke"});
+CREATE (:Honor {title:"Lord of Pyke"});
+CREATE (:Honor {title:"Lord of Lordsport"});
+CREATE (:Honor {title:"Lord of Iron Holt"});
+CREATE (:Honor {title:"Lord of Old Wyk"});
+CREATE (:Honor {title:"The Drumm"});
+CREATE (:Honor {title:"The Stonehouse"});
+CREATE (:Honor {title:"Lord of Great Wyk"});
+CREATE (:Honor {title:"Lord of the Hammerhorn"});
+CREATE (:Honor {title:"Lord of Sealskin Point"});
+CREATE (:Honor {title:"Lord of Orkmont"});
+CREATE (:Honor {title:"Orkwood of Orkmont"});
+CREATE (:Honor {title:"Lord of Saltcliffe"});
+CREATE (:Honor {title:"Lord of Harlaw"});
+CREATE (:Honor {title:"The Reader"});
+CREATE (:Honor {title:"Lord of Ten Towers"});
+CREATE (:Honor {title:"Harlaw of Harlaw"});
+CREATE (:Honor {title:"Sigfryd Silverhair"});
+CREATE (:Honor {title:"Master of Harlaw Hall"});
+CREATE (:Honor {title:"Hotho Humpback"});
+CREATE (:Honor {title:"Boremund The Blue"});
+CREATE (:Honor {title:"Master of Harridan Hill"});
+CREATE (:Honor {title:"Lord of the lesser isles and rocks"});
+CREATE (:Honor {title:"Lord of the Lonely Light"});
+CREATE (:Honor {title:"Lord of Southshield"});
+CREATE (:Honor {title:"Lord of Oakenshield"});
+CREATE (:Honor {title:"Lord of Greenshield"});
+CREATE (:Honor {title:"Lord of Greyshield"});
+CREATE (:Honor {title:"Knight of Grey Gardens"});
+CREATE (:Honor {title:"Cleftjaw"});
+CREATE (:Honor {title:"Captain of Foamdrinker"});
+CREATE (:Honor {title:"Dagon the Drunkard"});
+CREATE (:Honor {title:"Lord of the Eyrie"});
+CREATE (:Honor {title:"Defender of the Vale"});
+CREATE (:Honor {title:"Sweetrobin"});
+CREATE (:Honor {title:"Littlefinger"});
+CREATE (:Honor {title:"Lord of Harrenhal"});
+CREATE (:Honor {title:"Lord Paramount of the Trident"});
+CREATE (:Honor {title:"Lord Protector of the Vale"});
+CREATE (:Honor {title:"Captain of the guards at the Eyrie"});
+CREATE (:Honor {title:"Kettleblack"});
+CREATE (:Honor {title:"The Mad Mouse"});
+CREATE (:Honor {title:"Bronze Yohn"});
+CREATE (:Honor {title:"Lord of Runestone"});
+CREATE (:Honor {title:"High Steward of the Vale"});
+CREATE (:Honor {title:"Castellan of the Gates of the Moon"});
+CREATE (:Honor {title:""});
+CREATE (:Honor {title:""});
+
+
+
+
+// CREATE animals
+CREATE (:Animal {name:"Ser Pounce",type:"Kitten"});
+CREATE (:Animal {name:"Lady Whiskers",type:"Kitten"});
+CREATE (:Animal {name:"Boots",type:"Kitten"});
+
+// CREATE the People
+CREATE (:Person {name:"Robert Baratheon", alive:false});
+CREATE (:Person {name:"Tommen Baratheon", age:8});
+CREATE (:Person {name:"Myrcella Baratheon", age:9});
+CREATE (:Person {name:"Joffrey Baratheon", alive:false});
+CREATE (:Person {name:"Margaery Tyrell"});
+CREATE (:Person {name:"Megga Tyrell"});
+CREATE (:Person {name:"Alla Tyrell"});
+CREATE (:Person {name:"Elinor Tyrell"});
+CREATE (:Person {name:"Alyn Ambrose"});
+CREATE (:Person {name:"Cersei Lannister"});
+CREATE (:Person {name:"Jaime Lannister"});
+CREATE (:Person {name:"Tyrion Lannister", dwarf:true});
+CREATE (:Person {name:"Tywin Lannister", alive:false});
+CREATE (:Person {name:"Kevan Lannister"});
+CREATE (:Person {name:"Dorna Swyft"});
+CREATE (:Person {name:"Lancel Lannister"});
+CREATE (:Person {name:"Willem Lannister", alive:false});
+CREATE (:Person {name:"Martyn Lannister"});
+CREATE (:Person {name:"Janei Lannister", age:3});
+CREATE (:Person {name:"Genna Lannister"});
+CREATE (:Person {name:"Emmon Frey"});
+CREATE (:Person {name:"Cleos Frey",alive:false});
+CREATE (:Person {name:"Tywin Frey"});
+CREATE (:Person {name:"Willem Frey"});
+CREATE (:Person {name:"Lyonel Frey"});
+CREATE (:Person {name:"Tion Frey",alive:false});
+CREATE (:Person {name:"Red Walder Frey"});
+CREATE (:Person {name:"Tygett Lannister",alive:false});
+CREATE (:Person {name:"Darlessa Marbrand"});
+CREATE (:Person {name:"Tyrek Lannister"});
+CREATE (:Person {name:"Ermesande Hayford"});
+CREATE (:Person {name:"Gerion Lannister"});
+CREATE (:Person {name:"Joy Hill",bastard:true});
+CREATE (:Person {name:"Mace Tyrell"});
+CREATE (:Person {name:"Grand Maester Pycelle"});
+CREATE (:Person {name:"Paxter Redwyne"});
+CREATE (:Person {name:"Qyburn"});
+CREATE (:Person {name:"Gyles Rosby",alive:false});
+CREATE (:Person {name:"Orton Merryweather"});
+CREATE (:Person {name:"Aurane Waters",bastard:true});
+CREATE (:Person {name:"Meryn Trant"});
+CREATE (:Person {name:"Boros Blount"});
+CREATE (:Person {name:"Balon Swann"});
+CREATE (:Person {name:"Osmund Kettleblack"});
+CREATE (:Person {name:"Loras Tyrell"});
+CREATE (:Person {name:"Arys Oakheart",alive:false});
+CREATE (:Person {name:"Moon Boy"});
+CREATE (:Person {name:"Pate",age:8});
+CREATE (:Person {name:"Ormond of Oldtown"});
+CREATE (:Person {name:"Osfryd Kettleblack"});
+CREATE (:Person {name:"Noho Dimittis"});
+CREATE (:Person {name:"Gregor Clegane",alive:false});
+CREATE (:Person {name:"Rennifer Longwaters"});
+CREATE (:Person {name:"Wat the Blue Bard"});
+CREATE (:Person {name:"Hamish the Harper",alive:false});
+CREATE (:Person {name:"Mark Mullendore"});
+CREATE (:Person {name:"Tallad the Tall"});
+CREATE (:Person {name:"Lambert Turnberry"});
+CREATE (:Person {name:"Bayard Norcross"});
+CREATE (:Person {name:"Hugh Clifton"});
+CREATE (:Person {name:"Jalabhar Xho"});
+CREATE (:Person {name:"Horas Redwyne"});
+CREATE (:Person {name:"Hobber Redwyne"});
+CREATE (:Person {name:"Osney Kettleblack"});
+CREATE (:Person {name:"The High Septon"});
+CREATE (:Person {name:"Septa Unella"});
+CREATE (:Person {name:"Septa Moelle"});
+CREATE (:Person {name:"Septa Scolera"});
+CREATE (:Person {name:"Septon Torbert"});
+CREATE (:Person {name:"Septon Raynard"});
+CREATE (:Person {name:"Septon Luceon"});
+CREATE (:Person {name:"Septon Ollidor"});
+CREATE (:Person {name:"Septa Aglantine"});
+CREATE (:Person {name:"Septa Helicent"});
+CREATE (:Person {name:"Theodan Wells"});
+CREATE (:Person {name:"Chataya"});
+CREATE (:Person {name:"Alayaya"});
+CREATE (:Person {name:"Dancy"});
+CREATE (:Person {name:"Marei"});
+CREATE (:Person {name:"Tobho Mott"});
+CREATE (:Person {name:"Renfred Rykker"});
+CREATE (:Person {name:"Rufus Leek"});
+CREATE (:Person {name:"Tanda Stokeworth",alive:false});
+CREATE (:Person {name:"Falyse Stokeworth",alive:false});
+CREATE (:Person {name:"Balman Byrch",alive:false});
+CREATE (:Person {name:"Lollys Stokeworth"});
+CREATE (:Person {name:"Tyrion Tanner"});
+CREATE (:Person {name:"Bronn of the Blackwater"});
+CREATE (:Person {name:"Maester Frenken"});
+CREATE (:Person {name:"Stannis Baratheon"});
+CREATE (:Person {name:"Steffon Baratheon",alive:false});
+CREATE (:Person {name:"Cassana Estermont",alive:false});
+CREATE (:Person {name:"Melisandre of Asshai"});
+CREATE (:Person {name:"Richard Horpe"});
+CREATE (:Person {name:"Godry Farring"});
+CREATE (:Person {name:"Justin Massey"});
+CREATE (:Person {name:"Robin Peasebury"});
+CREATE (:Person {name:"Harwood Fell"});
+CREATE (:Person {name:"Clayton Suggs"});
+CREATE (:Person {name:"Corliss Penny"});
+CREATE (:Person {name:"William Foxglove"});
+CREATE (:Person {name:"Humfrey Clifton"});
+CREATE (:Person {name:"Ormund Wylde"});
+CREATE (:Person {name:"Harys Cobb"});
+CREATE (:Person {name:"Devan Seaworth"});
+CREATE (:Person {name:"Bryen Farring"});
+CREATE (:Person {name:"Mance Rayder"});
+CREATE (:Person {name:"The Wildling Prince"});
+CREATE (:Person {name:"Gilly"});
+CREATE (:Person {name:"The Abomination"});
+CREATE (:Person {name:"Craster",alive:false});
+CREATE (:Person {name:"Selyse Florent"});
+CREATE (:Person {name:"Shireen Baratheon"});
+CREATE (:Person {name:"Patchface"});
+CREATE (:Person {name:"Axell Florent"});
+CREATE (:Person {name:"Narbert Grandison"});
+CREATE (:Person {name:"Benethon Scales"});
+CREATE (:Person {name:"Patrek of King's Mountain"});
+CREATE (:Person {name:"Dorden the Dour"});
+CREATE (:Person {name:"Malgorn of Redpool"});
+CREATE (:Person {name:"Lambert Whitewater"});
+CREATE (:Person {name:"Perkin Follard"});
+CREATE (:Person {name:"Brus Buckler"});
+CREATE (:Person {name:"Davos Seaworth"});
+CREATE (:Person {name:"Salladhar Saan"});
+CREATE (:Person {name:"Tycho Nestoris"});
+//--
+CREATE (:Person {name:"Euron Greyjoy"});
+CREATE (:Person {name:"Balon Greyjoy", alive:false});
+CREATE (:Person {name:"Alannys Greyjoy"});
+CREATE (:Person {name:"Rodrik Greyjoy", alive:false});
+CREATE (:Person {name:"Maron Greyjoy", alive:false});
+CREATE (:Person {name:"Asha Greyjoy"});
+CREATE (:Person {name:"Theon Greyjoy"});
+CREATE (:Person {name:"Erik Ironmaker"});
+CREATE (:Person {name:"Victarion Greyjoy"});
+CREATE (:Person {name:"Aeron Greyjoy"});
+
+CREATE (:Person {name:"Torwold Browntooth"});
+CREATE (:Person {name:"Pinchface Jon Myre"});
+CREATE (:Person {name:"Rodrik Freeborn"});
+CREATE (:Person {name:"The Red Oarsman"});
+CREATE (:Person {name:"Left-Hand Lucas Codd"});
+CREATE (:Person {name:"Quellon Humble"});
+CREATE (:Person {name:"Harren Half-Hoare"});
+CREATE (:Person {name:"Kemmett Pyke The Bastard"});
+CREATE (:Person {name:"Qarl the Thrall"});
+CREATE (:Person {name:"Stonehand"});
+CREATE (:Person {name:"Ralf The Shepherd"});
+CREATE (:Person {name:"Ralf of Lordsport"});
+CREATE (:Person {name:"Cragorn", alive:false});
+CREATE (:Person {name:"Germund Botley"});
+CREATE (:Person {name:"Waldon Wynch"});
+CREATE (:Person {name:"Dunstan Drumm"});
+CREATE (:Person {name:"Norne Goodbrother"});
+CREATE (:Person {name:"Gorold Goodbrother"});
+CREATE (:Person {name:"Triston Farwynd"});
+CREATE (:Person {name:"Meldred Merlyn"});
+CREATE (:Person {name:"The Sparr"});
+CREATE (:Person {name:"Alyn Orkwood"});
+CREATE (:Person {name:"Balon Tawney"});
+CREATE (:Person {name:"Donnor Saltcliffe"});
+CREATE (:Person {name:"Sunderly"});
+CREATE (:Person {name:"Rodrik Harlaw"});
+CREATE (:Person {name:"Sigfryd Harlaw"});
+CREATE (:Person {name:"Hotho Harlaw"});
+CREATE (:Person {name:"Boremund Harlaw"});
+CREATE (:Person {name:"Gylbert Farwynd"});
+CREATE (:Person {name:"Andrik The Unsmiling"});
+CREATE (:Person {name:"Nute the Barber"});
+CREATE (:Person {name:"Maron Volmark"});
+CREATE (:Person {name:"Harras Harlaw"});
+CREATE (:Person {name:"Ralf Kenning"});
+CREATE (:Person {name:"Adrack Humble"});
+CREATE (:Person {name:"Dagon Codd"});
+CREATE (:Person {name:"Dagmer"});
+CREATE (:Person {name:"Qarl The Maid"});
+CREATE (:Person {name:"Tristifer Botley"});
+CREATE (:Person {name:"Roggon Rustbeard"});
+CREATE (:Person {name:"Grimtongue"});
+CREATE (:Person {name:"Rolfe the Dwarf"});
+CREATE (:Person {name:"Lorren Longaxe"});
+CREATE (:Person {name:"Rook"});
+CREATE (:Person {name:"Fingers"});
+CREATE (:Person {name:"Six-Toed Harl"});
+CREATE (:Person {name:"Droopeye Dale"});
+CREATE (:Person {name:"Earl Harlaw"});
+CREATE (:Person {name:"Cromm"});
+CREATE (:Person {name:"Hagen the Horn"});
+CREATE (:Person {name:"Quenton Greyjoy"});
+CREATE (:Person {name:"Dagon Greyjoy"});
+
+CREATE (:Person {name:"Robert Arryn"});
+CREATE (:Person {name:"Lysa Tully",alive:false});
+CREATE (:Person {name:"Jon Arryn"});
+CREATE (:Person {name:"Petyr Baelish"});
+CREATE (:Person {name:"Alayne Stone"}); // Sansa Stark
+CREATE (:Person {name:"Sansa Stark"});
+CREATE (:Person {name:"Lothor Brune"});
+CREATE (:Person {name:"Oswell"});
+CREATE (:Person {name:"Shadrick of the Shady Glen"});
+CREATE (:Person {name:"Byron the Beautiful"});
+CREATE (:Person {name:"Morgarth the Merry"});
+CREATE (:Person {name:"Gretchel"});
+CREATE (:Person {name:"Maester Colemon"});
+CREATE (:Person {name:"Mord"});
+CREATE (:Person {name:"Maddy"});
+CREATE (:Person {name:"Mela"});
+CREATE (:Person {name:"Yohn Royce"});
+CREATE (:Person {name:"Andar Royce"});
+CREATE (:Person {name:"Myranda Royce"});
+CREATE (:Person {name:"Randa Royce"});
+CREATE (:Person {name:"Nestor Royce"});
+CREATE (:Person {name:"Albar Royce"});
+CREATE (:Person {name:""});
+
+
+
+
+// List out all of the Houses and who belongs to them
+// House Baratheon
+MATCH (house:House) WHERE house.name = "Baratheon"
+OPTIONAL MATCH (person:Person) WHERE (
+        person.name = "Stannis Baratheon" OR
+        person.name = "Steffon Baratheon" OR
+        person.name = "Tommen Baratheon" OR
+        person.name = "Joffrey Baratheon" OR
+        person.name = "Myrcella Baratheon" OR
+        person.name = "Shireen Baratheon"
+)
+OPTIONAL MATCH (spouse:Person) WHERE (
+        spouse.name = "Cassana Estermont" OR
+        spouse.name = "Margaery Tyrell" OR
+        spouse.name = "Selyse Florent" OR
+        spouse.name = "Cersei Lannister"
+    )
+CREATE (person)-[:OF_HOUSE]->(house)
+CREATE (spouse)-[:MARRIED_INTO_HOUSE]->(house);
+
+// House Florent
+MATCH (house:House) WHERE house.name = "Florent"
+OPTIONAL MATCH (person:Person) WHERE (
+        person.name = "Selyse Florent" OR
+        person.name = "Axell Florent"
+    )
+CREATE (person)-[:OF_HOUSE]->(house);
+
+// House Estermont
+MATCH (house:House) WHERE house.name = "Estermont"
+OPTIONAL MATCH (person:Person) WHERE person.name = "Cassana Estermont"
+CREATE (person)-[:OF_HOUSE]->(house);
+
+// House Greyjoy
+MATCH (house:House) WHERE house.name = "Greyjoy"
+OPTIONAL MATCH (person:Person) WHERE (
+        person.name = "Euron Greyjoy" OR
+        person.name = "Balon Greyjoy" OR
+        person.name = "Rodrik Greyjoy" OR
+        person.name = "Maron Greyjoy" OR
+        person.name = "Asha Greyjoy" OR
+        person.name = "Theon Greyjoy" OR
+        person.name = "Victarion Greyjoy" OR
+        person.name = "Aeron Greyjoy" OR
+        person.name = "Quenton Greyjoy" OR
+        person.name = "Dagon Greyjoy"
+
+    )
+OPTIONAL MATCH (spouse:Person) WHERE (
+        spouse.name = "Alannys Greyjoy" OR
+        spouse.name = "Erik Ironmaker"
+    )
+CREATE (person)-[:OF_HOUSE]->(house)
+CREATE (spouse)-[:MARRIED_INTO_HOUSE]->(house);
+
+// House Arryn
+MATCH (house:House) WHERE house.name = "Arryn"
+OPTIONAL MATCH (person:Person) WHERE (
+        person.name = "Robert Arryn" OR
+        person.name = "Jon Arryn" OR
+        person.name = "" OR
+
+    )
+OPTIONAL MATCH (spouse:Person) WHERE (
+        spouse.name = "Lysa Tully" OR
+        spouse.name = "Petyr Baelish" OR
+        spouse.name = "" OR
+
+
+    )
+CREATE (person)-[:OF_HOUSE]->(house)
+CREATE (spouse)-[:MARRIED_INTO_HOUSE]->(house);
+
+
+// House Harlaw
+MATCH (house:House) WHERE house.name = "Harlaw"
+OPTIONAL MATCH (person:Person) WHERE person.name = "Alannys Greyjoy"
+CREATE (person)-[:OF_HOUSE]->(house);
+
+// House Lannister
+MATCH (house:House) WHERE house.name = "Lannister"
+OPTIONAL MATCH (person:Person) WHERE (
+        person.name = "Cersei Lannister" OR
+        person.name = "Jaime Lannister" OR
+        person.name = "Tyrion Lannister" OR
+        person.name = "Tywin Lannister" OR
+        person.name = "Kevan Lannister" OR
+        person.name = "Lancel Lannister" OR
+        person.name = "Willem Lannister" OR
+        person.name = "Martyn Lannister" OR
+        person.name = "Janei Lannister" OR
+        person.name = "Tygett Lannister" OR
+        person.name = "Tyrek Lannister" OR
+        person.name = "Gerion Lannister" OR
+        person.name = "Genna Lannister"
+    )
+OPTIONAL MATCH (spouse:Person) WHERE (
+        spouse.name = "Dorna Swyft" OR
+        spouse.name = "Darlessa Marbrand" OR
+        spouse.name = "Ermesande Hayford"
+    )
+CREATE (person)-[:OF_HOUSE]->(house)
+CREATE (spouse)-[:MARRIED_INTO_HOUSE]->(house);
+
+// House Frey
+MATCH (house:House) WHERE house.name = "Frey"
+OPTIONAL MATCH (person:Person) WHERE (
+        person.name = "Emmon Frey" OR
+        person.name = "Tywin Frey" OR
+        person.name = "Willem Frey" OR
+        person.name = "Lyonel Frey" OR
+        person.name = "Tion Frey" OR
+        person.name = "Red Walder Frey" OR
+        person.name = "Cleos Frey"
+    )
+OPTIONAL MATCH (spouse:Person) WHERE (
+        spouse.name = "Genna Lannister"
+    )
+CREATE (person)-[:OF_HOUSE]->(house)
+CREATE (spouse)-[:MARRIED_INTO_HOUSE]->(house);
+
+// House Tyrell
+MATCH (house:House) WHERE house.name = "Tyrell"
+OPTIONAL MATCH (person:Person) WHERE  (
+        person.name = "Mace Tyrell" OR
+        person.name = "Loras Tyrell" OR
+        person.name = "Margaery Tyrell" OR
+        person.name = "Alla Tyrell" OR
+        person.name = "Elinor Tyrell" OR
+        person.name = "Megga Tyrell"
+    )
+CREATE (person)-[:OF_HOUSE]->(house);
+
+// House Estermont
+MATCH (house:House) WHERE house.name = "Estermont"
+OPTIONAL MATCH (person:Person) WHERE (
+      person.name = "Cassana Estermont"
+)
+CREATE (person)-[:OF_HOUSE]->(house);
+
+// House Swyft
+MATCH (house:House) WHERE house.name = "Swyft"
+OPTIONAL MATCH (person:Person) WHERE (
+      person.name = "Dorna Swyft"
+)
+CREATE (person)-[:OF_HOUSE]->(house);
+
+// People with honorific "Ser" and no other title
+MATCH (honor:Honor) WHERE honor.title = "Ser"
+OPTIONAL MATCH (person:Person) WHERE (
+        person.name = "Richard Horpe" OR
+        person.name = "Godry Farring" OR
+        person.name = "Justin Massey" OR
+        person.name = "Clayton Suggs" OR
+        person.name = "Corliss Penny" OR
+        person.name = "William Foxglove" OR
+        person.name = "Humfrey Clifton" OR
+        person.name = "Ormund Wylde" OR
+        person.name = "Harys Cobb" OR
+        person.name = "Emmon Frey" OR
+        person.name = "Cleos Frey" OR
+        person.name = "Tywin Frey" OR
+        person.name = "Lyonel Frey" OR
+        person.name = "Tygett Lannister" OR
+        person.name = "Meryn Trant" OR
+        person.name = "Boros Blount" OR
+        person.name = "Balon Swann" OR
+        person.name = "Osmund Kettleblack" OR
+        person.name = "Arys Oakheart" OR
+        person.name = "Osfryd Kettleblack" OR
+        person.name = "Mark Mullendore" OR
+        person.name = "Tallad the Tall" OR
+        person.name = "Lambert Turnberry" OR
+        person.name = "Bayard Norcross" OR
+        person.name = "Hugh Clifton" OR
+        person.name = "Horas Redwyne" OR
+        person.name = "Hobber Redwyne" OR
+        person.name = "Osney Kettleblack" OR
+        person.name = "Theodan Wells" OR
+        person.name = "Balman Byrch" OR
+        person.name = "Bronn of the Blackwater" OR
+        person.name = "Narbert Grandison" OR
+        person.name = "Benethon Scales" OR
+        person.name = "Patrek of King's Mountain" OR
+        person.name = "Dorden the Dour" OR
+        person.name = "Malgorn of Redpool" OR
+        person.name = "Lambert Whitewater" OR
+        person.name = "Perkin Follard" OR
+        person.name = "Byron the Beautiful" OR
+        person.name = "Morgarth the Merry" OR
+        person.name = "Andar Royce" OR
+        person.name = "Brus Buckler"
+    )
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// People with honorific "Squire" and no other title
+MATCH (honor:Honor) WHERE honor.title= "Squire"
+OPTIONAL MATCH (person:Person) WHERE (
+        person.name = "Alyn Ambrose" OR
+        person.name = "Martyn Lannister" OR
+        person.name = "Willem Frey" OR
+        person.name = "Tion Frey" OR
+        person.name = "Tyrek Lannister" OR
+        person.name = "Devan Seaworth" OR
+        person.name = "Bryen Farring"
+    )
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Lords that follow R'hllor
+MATCH (honor:Honor) WHERE honor.title = "Lord"
+OPTIONAL MATCH (faith:Group) WHERE faith.name = "R'hllor, the Lord of Light"
+OPTIONAL MATCH (person:Person) WHERE (
+        person.name = "Robin Peasebury" OR
+        person.name = "Harwood Fell"
+    )
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor)
+CREATE (person)-[:FOLLOWER_OF]->(faith);
+
+// People at Eastwatch
+MATCH (place:Place) WHERE place.name = "Eastwatch-by-the-Sea"
+OPTIONAL MATCH (person:Person) WHERE (
+        person.name = "Selyse Florent" OR
+        person.name = "Shireen Baratheon" OR
+        person.name = "Patchface" OR
+        person.name = "Axell Florent" OR
+        person.name = "Narbert Grandison" OR
+        person.name = "Benethon Scales" OR
+        person.name = "Patrek of King's Mountain" OR
+        person.name = "Dorden the Dour" OR
+        person.name = "Malgorn of Redpool" OR
+        person.name = "Lambert Whitewater" OR
+        person.name = "Perkin Follard" OR
+        person.name = "Brus Buckler" OR
+        person.name = "Davos Seaworth" OR
+        person.name = "Salladhar Saan" OR
+        person.name = "Tycho Nestoris"
+    )
+CREATE (person)-[:CURRENTLY_AT]->(place);
+
+// Robert Arryn
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Robert Arryn" AND (
+        honor.title = "Lord of the Eyrie" OR
+        honor.title = "Defender of the Vale" OR
+        honor.title = "Sweetrobin"
+    )
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Robert Bannermen
+MATCH (euron:Person),(banner:Person)
+WHERE euron.name = "Robert Arryn" AND (
+    banner.name = "Yohn Royce" OR
+    banner.name = "Nestor Royce" OR
+    banner.name = "" OR
+
+  )
+CREATE (banner)-[:BANNERMAN_OF]->(euron);
+
+// Nestor Royce
+MATCH (person:Person),(honor:Honor), (child:Person)
+WHERE person.name = "Nestor Royce" AND (
+        honor.title = "Lord" OR
+        honor.title = "High Steward of the Vale" OR
+        honor.title = "Castellan of the Gates of the Moon"
+    ) AND (
+        child.name = "Albar Royce" OR
+        child.name = "Myranda Royce" OR
+        child.name = "Randa Royce"
+    )
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor)
+CREATE (child)-[:CHILD_OF]->(person);
+
+
+// Yohn Royce
+MATCH (person:Person),(honor:Honor), (child:Person)
+WHERE person.name = "Yohn Royce" AND (
+        honor.title = "Bronze Yohn" OR
+        honor.title = "Lord of Runestone"
+    )
+    AND child.name = "Andar Royce"
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor)
+CREATE (child)-[:CHILD_OF]->(person);
+
+// Andar Royce
+
+// Lysa Tully
+MATCH (person:Person),(husband:Person),(child:Person)
+WHERE person.name = "Lysa Tully" AND (
+        husband.name = "Jon Arryn" OR
+        husband.name = "Petyr Baelish"
+    ) AND
+    child.name = "Robert Arryn"
+CREATE (person)-[:MARRIED_TO]->(husband)
+CREATE (child)-[:CHILD_OF]->(person);
+
+// Jon Arryn
+MATCH (person:Person),(child:Person)
+WHERE person.name = "Jon Arryn"
+AND child.name = "Robert Arryn"
+CREATE (child)-[:CHILD_OF]->(person);
+
+// Petyr Baelish
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Petyr Baelish" AND (
+        honor.title = "Littlefinger" OR
+        honor.title = "Lord of Harrenhal" OR
+        honor.title = "Lord Paramount of the Trident" OR
+        honor.title = "Lord Protector of the Vale"
+    )
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Alayne Stone
+MATCH (person:Person),(alias:Person)
+WHERE person.name = "Alayne Stone" AND alias.name = "Sansa Stark"
+CREATE (alias)-[:ALIAS_OF]->(person);
+
+// Lothor Brune
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Lothor Brune" AND (
+        honor.title = "Ser" OR
+        honor.title = "Captain of the guards at the Eyrie"
+    )
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Oswell
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Oswell" AND (
+        honor.title = "Kettleblack"
+    )
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Shadrick of the Shady Glen
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Shadrick of the Shady Glen" AND (
+        honor.title = "Ser" OR
+        honor.title = "The Mad Mouse"
+    )
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+//
+
+// Aeron Greyjoy
+MATCH (person:Person),(honor:Honor),(god:Group)
+WHERE person.name = "Aeron Greyjoy" AND
+        honor.title = "Damphair" AND
+        god.name = "Drowned God"
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor)
+CREATE (person)-[:PRIEST_OF]->(god);
+
+// Victarion Greyjoy
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Victarion Greyjoy" AND (
+        honor.title = "Lord Captain of the Iron Fleet" OR
+        honor.title = "Master of the Iron Victory"
+    )
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Theon Greyjoy
+MATCH (person:Person),(honor:Honor),(place:Place)
+WHERE person.name = "Theon Greyjoy" AND
+        honor.title = "Theon Turncloak" AND
+        place.name = "Dreadfort"
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor)
+CREATE (person)-[:CAPTIVE_IN]->(place);
+
+
+// Asha Greyjoy
+MATCH (person:Person),(honor:Honor),(husband:Person)
+WHERE person.name = "Asha Greyjoy" AND (
+        honor.title = "Captain of the Black Wind" OR
+        honor.title = "Conqueror of Deepwood Motte"
+    ) AND
+    husband.name = "Erik Ironmaker"
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor)
+CREATE (person)-[:MARRIED_TO]->(husband);
+
+// Asha Lovers
+MATCH (person:Person),(lover:Person)
+WHERE person.name = "Asha Greyjoy" AND (
+    lover.name = "Qarl The Maid" OR
+    lover.name = "Tristifer Botley"
+  )
+CREATE (lover)-[:LOVER_OF]->(person);
+// Qarl The Maid
+// Tristifer Botley
+
+// Asha Crewmen
+MATCH (person:Person),(crew:Person)
+WHERE person.name = "Asha Greyjoy" AND (
+    crew.name = "Roggon Rustbeard" OR
+    crew.name = "Grimtongue" OR
+    crew.name = "Rolfe the Dwarf" OR
+    crew.name = "Lorren Longaxe" OR
+    crew.name = "Rook" OR
+    crew.name = "Fingers" OR
+    crew.name = "Six-Toed Harl" OR
+    crew.name = "Droopeye Dale" OR
+    crew.name = "Earl Harlaw" OR
+    crew.name = "Cromm" OR
+    crew.name = "Hagen the Horn"
+  )
+CREATE (crew)-[:CREW_TO]->(person);
+
+// Dagon Greyjoy
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Dagon Greyjoy" AND (
+        honor.title = "Dagon the Drunkard"
+    )
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Alannys Greyjoy
+
+// Balon Greyjoy
+MATCH (person:Person),(honor:Honor),(wife:Person),(child:Person)
+WHERE person.name = "Balon Greyjoy" AND (
+        honor.title = "The Ninth of His Name Since the Grey King" OR
+        honor.title = "King of the Iron Islands and the North"
+    ) AND
+    wife.name = "Alannys Greyjoy" AND (
+        child.name = "Rodrik Greyjoy" OR
+        child.name = "Maron Greyjoy" OR
+        child.name = "Asha Greyjoy" OR
+        child.name = "Theon Greyjoy"
+    )
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor)
+CREATE (person)-[:MARRIED_TO]->(wife)
+CREATE (child)-[:CHILD_OF]->(person)
+CREATE (child)-[:CHILD_OF]->(wife);
+
+// Euron Greyjoy
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Euron Greyjoy" AND (
+        honor.title = "The Third of His Name Since the Grey King" OR
+        honor.title = "King of the Iron Islands and the North" OR
+        honor.title = "Son of the Sea Wind" OR
+        honor.title = "King of Salt and Rock" OR
+        honor.title = "Lord Reaper of Pyke" OR
+        honor.title = "Captain of the Silence" OR
+        honor.title = "Crow's Eye"
+    )
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Euron Sworn Swords
+MATCH (euron:Person),(sword:Person)
+WHERE euron.name = "Euron Greyjoy" AND (
+    sword.name = "Torwold Browntooth" OR
+    sword.name = "Pinchface Jon Myre" OR
+    sword.name = "Rodrik Freeborn" OR
+    sword.name = "The Red Oarsman" OR
+    sword.name = "Left-Hand Lucas Codd" OR
+    sword.name = "Quellon Humble" OR
+    sword.name = "Harren Half-Hoare" OR
+    sword.name = "Kemmett Pyke The Bastard" OR
+    sword.name = "Qarl the Thrall" OR
+    sword.name = "Stonehand" OR
+    sword.name = "Ralf The Shepherd" OR
+    sword.name = "Ralf of Lordsport"
+  )
+CREATE (sword)-[:SWORN_SWORD_OF]->(euron);
+
+// Euron Crewmen
+MATCH (euron:Person),(crew:Person)
+WHERE euron.name = "Euron Greyjoy" AND (
+    crew.name = "Cragorn"
+  )
+CREATE (crew)-[:CREW_TO]->(euron);
+
+//Euron Bannermen
+MATCH (euron:Person),(banner:Person)
+WHERE euron.name = "Euron Greyjoy" AND (
+    banner.name = "Erik Ironmaker" OR
+    banner.name = "Germund Botley" OR
+    banner.name = "Waldon Wynch" OR
+    banner.name = "Dunstan Drumm" OR
+    banner.name = "Norne Goodbrother" OR
+    banner.name = "Gorold Goodbrother" OR
+    banner.name = "Triston Farwynd" OR
+    banner.name = "The Sparr" OR
+    banner.name = "Meldred Merlyn" OR
+    banner.name = "Alyn Orkwood" OR
+    banner.name = "Balon Tawney" OR
+    banner.name = "Donnor Saltcliffe" OR
+    banner.name = "Sunderly" OR
+    banner.name = "Rodrik Harlaw" OR
+    banner.name = "Sigfryd Harlaw" OR
+    banner.name = "Hotho Harlaw" OR
+    banner.name = "Boremund Harlaw" OR
+    banner.name = "Gylbert Farwynd"
+  )
+CREATE (banner)-[:BANNERMAN_OF]->(euron);
+
+// Torrhen's Square
+MATCH (place:Place), (person:Person) WHERE
+place.name = "Torrhen's Square" AND (
+  person.name = "Dagmer"
+)
+CREATE (person)-[:LIVES_IN]->(place);
+
+// Dagmer
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Dagmer" AND (
+        honor.title = "Cleftjaw" OR
+        honor.title = "Captain of Foamdrinker"
+    )
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Moat Cailin
+MATCH (place:Place), (person:Person) WHERE
+place.name = "Moat Cailin" AND (
+  person.name = "Ralf Kenning" OR
+  person.name = "Adrack Humble" OR
+  person.name = "Dagon Codd"
+)
+CREATE (person)-[:LIVES_IN]->(place);
+
+// Ralf Kenning
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Ralf Kenning" AND (
+        honor.title = "Castellan and Commander"
+    )
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Adrack Humble
+
+//Dagon Codd
+
+// Shield Islands
+MATCH (place:Place), (person:Person) WHERE
+place.name = "Shield Islands" AND (
+  person.name = "Andrik The Unsmiling" OR
+  person.name = "Nute the Barber" OR
+  person.name = "Maron Volmark" OR
+  person.name = "Harras Harlaw"
+)
+CREATE (person)-[:LIVES_IN]->(place);
+
+// Andrik The Unsmiling
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Andrik The Unsmiling" AND (
+        honor.title = "Lord of Southshield"
+    )
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Nute the Barber
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Nute the Barber" AND (
+        honor.title = "Lord of Oakenshield"
+    )
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Maron Volmark
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Maron Volmark" AND (
+        honor.title = "Lord of Greenshield"
+    )
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Harras Harlaw
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Harras Harlaw" AND (
+        honor.title = "Lord of Greyshield" OR
+        honor.title = "Knight of Grey Gardens" OR
+        honor.title = "Ser"
+
+    )
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+//
+
+// Rodrik Harlaw
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Rodrik Harlaw" AND (
+        honor.title = "Lord of Harlaw" OR
+        honor.title = "The Reader" OR
+        honor.title = "Lord of Ten Towers" OR
+        honor.title = "Harlaw of Harlaw"
+    )
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Sigfryd Harlaw
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Sigfryd Harlaw" AND (
+        honor.title = "Lord of Harlaw" OR
+        honor.title = "Sigfryd Silverhair" OR
+        honor.title = "Master of Harlaw Hall"
+    )
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Hotho Harlaw
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Hotho Harlaw" AND (
+        honor.title = "Lord of Harlaw" OR
+        honor.title = "Hotho Humpback"
+    )
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Boremund Harlaw
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Boremund Harlaw" AND (
+        honor.title = "Lord of Harlaw" OR
+        honor.title = "Boremund The Blue"
+    )
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Gylbert Farwynd
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Gylbert Farwynd" AND (
+        honor.title = "Lord of the lesser isles and rocks" OR
+        honor.title = "Lord of the Lonely Light"
+    )
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Donnor Saltcliffe
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Donnor Saltcliffe" AND (
+        honor.title = "Lord of Saltcliffe"
+    )
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Sunderly
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Sunderly" AND (
+        honor.title = "Lord of Saltcliffe" OR
+        honor.title = "Lord"
+    )
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Alyn Orkwood
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Alyn Orkwood" AND (
+        honor.title = "Lord of Orkmont" OR
+        honor.title = "Orkwood of Orkmont"
+    )
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Balon Tawney
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Balon Tawney" AND (
+        honor.title = "Lord of Orkmont" OR
+        honor.title = "Lord"
+    )
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Gorold Goodbrother
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Gorold Goodbrother" AND (
+        honor.title = "Lord of Great Wyk" OR
+        honor.title = "Lord of the Hammerhorn"
+    )
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Triston Farwynd
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Triston Farwynd" AND (
+        honor.title = "Lord of Great Wyk" OR
+        honor.title = "Lord of Sealskin Point"
+    )
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// The Sparr
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "The Sparr" AND (
+        honor.title = "Lord of Great Wyk"
+    )
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Meldred Merlyn
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Meldred Merlyn" AND (
+        honor.title = "Lord of Great Wyk" OR
+        honor.title = "Lord of Pebbleton"
+    )
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+
+// Dunstan Drumm
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Dunstan Drumm" AND (
+        honor.title = "Lord of Old Wyk" OR
+        honor.title = "The Drumm"
+    )
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Norne Goodbrother
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Norne Goodbrother" AND (
+        honor.title = "Lord of Old Wyk" OR
+        honor.title = "The Stonehouse"
+    )
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Germund Botley
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Germund Botley" AND (
+        honor.title = "Lord of Pyke" OR
+        honor.title = "Lord of Lordsport"
+    )
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Waldon Wynch
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Waldon Wynch" AND (
+        honor.title = "Lord of Pyke" OR
+        honor.title = "Lord of Lordsport"
+    )
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Erik Ironmaker
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Erik Ironmaker" AND (
+        honor.title = "Erik Anvil-Breaker" OR
+        honor.title = "Erik The Just" OR
+        honor.title = "Lord Steward of the Iron Islands" OR
+        honor.title = "Castellan of Pyke"
+    )
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Axell Florent
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Axell Florent" AND (
+        honor.title = "Ser" OR
+        honor.title = "Queen's Hand"
+    )
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Shireen Baratheon
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Shireen Baratheon" AND
+        honor.title = "Princess"
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Show relationship to Patchface
+MATCH (person:Person),(fool:Person)
+WHERE person.name = "Shireen Baratheon" AND
+    fool.name = "Patchface"
+CREATE (fool)-[:FOOL_TO]->(person);
+
+// Tycho Nestoris
+MATCH (person:Person),(bank:Group)
+WHERE person.name = "Tycho Nestoris" AND
+    bank.name = "Iron Bank of Braavos"
+CREATE (person)-[:MEMBER_OF]->(bank);
+
+// Salladhar Saan
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Salladhar Saan" AND
+    honor.title = "Master of the Valyrian"
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Davos Seaworth
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Davos Seaworth" AND (
+        honor.title = "Ser" OR
+        honor.title = "Lord of the Rainwood" OR
+        honor.title = "Admiral of the Narrow Sea" OR
+        honor.title = "Hand of the King" OR
+        honor.title = "The Onion Knight"
+    )
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Selyse Florent
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Selyse Florent" AND
+        honor.title = "Queen"
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+MATCH (person:Person),(sword:Person)
+WHERE person.name = "Selyse Florent" AND (
+        sword.name = "Narbert Grandison" OR
+        sword.name = "Benethon Scales" OR
+        sword.name = "Patrek of King's Mountain" OR
+        sword.name = "Dorden the Dour" OR
+        sword.name = "Malgorn of Redpool" OR
+        sword.name = "Lambert Whitewater" OR
+        sword.name = "Perkin Follard" OR
+        sword.name = "Brus Buckler"
+    )
+CREATE (sword)-[:SWORN_SWORD_OF]->(person);
+
+// Melisandre of Asshai
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Melisandre of Asshai" AND (
+        honor.title = "The Red Woman" OR
+        honor.title = "Lady"
+    )
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Gilly
+MATCH (child:Person),(mother:Person),(father:Person)
+WHERE child.name = "The Abomination" AND
+    mother.name = "Gilly" AND
+    father.name = "Craster"
+CREATE (child)-[:CHILD_OF]->(mother)
+CREATE (child)-[:CHILD_OF]->(father)
+CREATE (mother)-[:CHILD_OF]->(father);
+
+// The Wildling Prince
+MATCH (person:Person),(nurse:Person)
+WHERE person.name = "The Wildling Prince" AND
+    nurse.name = "Gilly"
+CREATE (nurse)-[:WET_NURSE_OF]->(person);
+
+// Mance Rayder
+MATCH (person:Person),(son:Person),(honor:Honor),(captor:Person)
+WHERE person.name = "Mance Rayder" AND
+    honor.title = "King-Beyond-the-Wall" AND
+    captor.name = "Stannis Baratheon" AND
+    son.name = "The Wildling Prince"
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor)
+CREATE (person)-[:CAPTIVE_OF]->(captor)
+CREATE (son)-[:CHILD_OF]->(person);
+
+// Stannis Sworn Swords
+MATCH (stannis:Person),(sword:Person)
+WHERE stannis.name = "Stannis Baratheon" AND (
+        sword.name = "Richard Horpe" OR
+        sword.name = "Godry Farring" OR
+        sword.name = "Justin Massey" OR
+        sword.name = "Robin Peasebury" OR
+        sword.name = "Harwood Fell" OR
+        sword.name = "Clayton Suggs" OR
+        sword.name = "Corliss Penny" OR
+        sword.name = "William Foxglove" OR
+        sword.name = "Humfrey Clifton" OR
+        sword.name = "Ormund Wylde" OR
+        sword.name = "Harys Cobb"
+    )
+CREATE (sword)-[:SWORN_SWORD_OF]->(stannis);
+
+
+// Stannis Squires
+MATCH (person:Person),(squire:Person)
+WHERE person.name = "Stannis Baratheon" AND (
+        squire.name = "Devan Seaworth" OR
+        squire.name = "Bryen Farring"
+    )
+CREATE (squire)-[:SQUIRE_TO]->(person);
+
+// Stannis Faith
+MATCH (person:Person), (advisor:Person),(faith:Group)
+WHERE person.name = "Stannis Baratheon" AND
+    advisor.name = "Melisandre of Asshai" AND
+    faith.name = "R'hllor, the Lord of Light"
+CREATE (advisor)-[:ADVISOR_TO]->(person)
+CREATE (advisor)-[:PRIEST_OF]->(faith);
+
+// Stannis Baratheon
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Stannis Baratheon" AND (
+        honor.title = "First of His Name" OR
+        honor.title = "King of Westeros" OR
+        honor.title = "Lord of Dragonstone"
+    )
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Castle Black
+MATCH (place:Place), (person:Person) WHERE
+place.name = "Castle Black" AND (
+  person.name = "Stannis Baratheon" OR
+  person.name = "Melisandre of Asshai" OR
+  person.name = "Richard Horpe" OR
+  person.name = "Godry Farring" OR
+  person.name = "Justin Massey" OR
+  person.name = "Robin Peasebury" OR
+  person.name = "Harwood Fell" OR
+  person.name = "Clayton Suggs" OR
+  person.name = "Corliss Penny" OR
+  person.name = "William Foxglove" OR
+  person.name = "Humfrey Clifton" OR
+  person.name = "Ormund Wylde" OR
+  person.name = "Harys Cobb"
+)
+CREATE (person)-[:LIVES_IN]->(place);
+
+// Godry Farring
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Godry Farring" AND honor.title = "Giantslayer"
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Steffon Baratheon
+MATCH (husband:Person), (wife:Person),(child:Person)
+WHERE husband.name = "Steffon Baratheon" AND
+    wife.name = "Cassana Estermont" AND (
+        child.name = "Stannis Baratheon" OR
+        child.name = "Robert Barathon"
+    )
+CREATE (husband)-[:MARRIED_TO]->(wife)
+CREATE (child)-[:CHILD_OF]->(husband)
+CREATE (child)-[:CHILD_OF]->(wife);
+
+// Cassana Estermont
+
+// Tommen Baratheon Relationships
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Tommen Baratheon" AND (
+        honor.title = "First of His Name" OR
+        honor.title = "King of the Andals, the Rhoynar, and the First Men" OR
+        honor.title = "Lord of the Seven Kingdoms"
+    )
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+MATCH (person:Person),(animal:Animal)
+WHERE person.name = "Tommen Baratheon" AND (
+        animal.name = "Ser Pounce" OR
+        animal.name = "Lady Whiskers" OR
+        animal.name = "Boots"
+    )
+CREATE (animal)-[:BELONGS_TO]->(person);
+
+MATCH (person:Person),(court:Group),(council:Group)
+WHERE person.name = "Tommen Baratheon" AND
+    court.name = "Court" AND
+    council.name = "Small Council"
+CREATE (person)-[:PRESIDES_OVER]->(court)
+CREATE (person)-[:PRESIDES_OVER]->(council);
+
+
+// Joffrey Baratheon
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Joffrey Baratheon" AND
+    honor.title = "King"
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// TODO: Represent death (poison) with relationship?
+
+// Margaery Tyrell relationships
+MATCH (person:Person), (place:Place),(crime:Crime),(husband0:Person),(husband1:Person)
+WHERE person.name = "Margaery Tyrell" AND
+    place.name = "Great Sept of Baelor" AND
+    crime.name = "High Treason" AND
+    husband0.name = "Tommen Baratheon" AND
+    husband1.name = "Joffrey Baratheon"
+CREATE (person)-[:CAPTIVE_IN]->(place)
+CREATE (person)-[:ACCUSED_OF]->(crime)
+CREATE (person)-[:MARRIED_TO]->(husband0)
+CREATE (person)-[:MARRIED_TO]->(husband1);
+
+// TODO: Margaery's previous husbands
+
+// Margeary's lovers
+MATCH (person:Person),(lover:Person)
+WHERE person.name = "Margaery Tyrell" AND (
+        lover.name = "Wat the Blue Bard" OR
+        lover.name = "Hamish the Harper" OR
+        lover.name = "Mark Mullendore" OR
+        lover.name = "Tallad the Tall" OR
+        lover.name = "Lambert Turnberry" OR
+        lover.name = "Bayard Norcross" OR
+        lover.name = "Hugh Clifton" OR
+        lover.name = "Jalabhar Xho" OR
+        lover.name = "Horas Redwyne" OR
+        lover.name = "Hobber Redwyne"
+    )
+CREATE (lover)-[:ALLEGED_LOVER_OF]->(person);
+
+
+// Megga Tyrell relationships
+MATCH (person:Person),(crime:Crime),(cousin:Person)
+WHERE person.name = "Megga Tyrell" AND
+    crime.name = "Fornication" AND
+    cousin.name = "Margaery Tyrell"
+CREATE (person)-[:ACCUSED_OF]->(crime)
+CREATE (person)-[:COUSIN_OF]->(cousin)
+CREATE (person)-[:COMPANION_TO]->(cousin);
+
+// Alla Tyrell relationships
+MATCH (person:Person),(crime:Crime),(cousin:Person)
+WHERE person.name = "Alla Tyrell" AND
+    crime.name = "Fornication" AND
+    cousin.name = "Margaery Tyrell"
+CREATE (person)-[:ACCUSED_OF]->(crime)
+CREATE (person)-[:COUSIN_OF]->(cousin)
+CREATE (person)-[:COMPANION_TO]->(cousin);
+
+// Elinor Tyrell relationships
+MATCH (person:Person),(crime:Crime),(cousin:Person)
+WHERE person.name = "Elinor Tyrell" AND
+    crime.name = "Fornication" AND
+    cousin.name = "Margaery Tyrell"
+CREATE (person)-[:ACCUSED_OF]->(crime)
+CREATE (person)-[:COUSIN_OF]->(cousin)
+CREATE (person)-[:COMPANION_TO]->(cousin);
+
+// Alyn Ambrose relationships
+MATCH (p:Person),(b:Person)
+WHERE p.name = "Alyn Ambrose" AND
+    b.name = "Elinor Tyrell"
+CREATE (p)-[:BETROTHED_TO]->(b);
+
+// Cersei Lannister relationships
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Cersei Lannister" AND (
+        honor.title = "Queen Dowager" OR
+        honor.title = "Lady of Casterly Rock"
+    )
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+MATCH (person:Person), (place:Place),(crime:Crime),(husband:Person)
+WHERE person.name = "Cersei Lannister" AND
+    place.name = "Great Sept of Baelor" AND
+    crime.name = "High Treason" AND
+    husband.name = "Robert Baratheon"
+CREATE (person)-[:CAPTIVE_IN]->(place)
+CREATE (person)-[:ACCUSED_OF]->(crime)
+CREATE (person)-[:MARRIED_TO]->(husband);
+
+MATCH (person:Person),(council:Group)
+WHERE person.name = "Cersei Lannister" AND
+    council.name = "Small Council"
+CREATE (person)-[:PRESIDES_OVER]->(council);
+
+
+// Myrcella Baratheon relationships
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Myrcella Baratheon" AND
+    honor.title = "Princess"
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// TODO: WARD_OF
+// TODO: BETROTHED_TO
+
+// Jaime Lannister relationships
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Jaime Lannister" AND (
+        honor.title = "The Kingslayer" OR
+        honor.title = "Lord Commander of the Kingsguard" OR
+        honor.title = "Ser"
+    )
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+MATCH (person:Person),(twin:Person)
+WHERE person.name = "Jaime Lannister" AND
+    twin.name = "Cersei Lannister"
+CREATE (person)-[:TWIN_TO]->(twin);
+
+MATCH (person:Person),(group:Group)
+WHERE person.name = "Jaime Lannister" AND (
+        group.name = "Small Council" OR
+        group.name = "Kingsguard"
+    )
+CREATE (person)-[:MEMBER_OF {owner:"Tommen Baratheon"}]->(group);
+
+// Jaime and Cersei's children
+MATCH (mother:Person), (child:Person), (father:Person)
+WHERE mother.name = "Cersei Lannister" AND
+father.name = "Jaime Lannister" AND (
+        child.name = "Tommen Baratheon" OR
+        child.name = "Joffrey Baratheon" OR
+        child.name = "Myrcella Baratheon"
+    )
+CREATE (child)-[:CHILD_OF]->(mother)
+CREATE (child)-[:CHILD_OF]->(father);
+
+// Tyrion Lannister relationships
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Tyrion Lannister" AND
+    honor.title = "The Imp"
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+MATCH (person:Person),(crime:Crime)
+WHERE person.name = "Tyrion Lannister" AND (
+        crime.name = "Regicide" OR
+        crime.name = "Kinslaying"
+    )
+CREATE (person)-[:ACCUSED_OF]->(crime)
+CREATE (person)-[:CONDEMNED_FOR]->(crime);
+
+// Tywin Lannister
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Tywin Lannister" AND (
+        honor.title = "Lord of Casterly Rock" OR
+        honor.title = "Warden of the West" OR
+        honor.title = "Hand of the King"
+    )
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+MATCH (father:Person), (child:Person)
+WHERE father.name = "Tywin Lannister" AND (
+        child.name = "Cersei Lannister" OR
+        child.name = "Jaime Lannister" OR
+        child.name = "Tyrion Lannister"
+    )
+CREATE (child)-[:CHILD_OF]->(father);
+
+MATCH (person:Person),(murderer:Person)
+WHERE person.name = "Tywin Lannister" AND
+    murderer.name = "Tyrion Lannister"
+CREATE (person)-[:MURDERED_BY {weapon:"Crossbow",location:"on privy"}]->(murderer);
+
+// Kevan Lannister
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Kevan Lannister" AND (
+        honor.title = "Ser" OR
+        honor.title = "Lord Regent and Protector of the Realm"
+    )
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+MATCH (person:Person),(group:Group)
+WHERE person.name = "Kevan Lannister" AND
+    group.name = "Small Council"
+CREATE (person)-[:MEMBER_OF {owner:"Tommen Baratheon"}]->(group);
+
+
+MATCH (husband:Person),(wife:Person),(child:Person)
+WHERE husband.name = "Kevan Lannister" AND
+    wife.name = "Dorna Swyft" AND (
+        child.name = "Lancel Lannister" OR
+        child.name = "Willem Lannister" OR
+        child.name = "Martyn Lannister" OR
+        child.name = "Janei Lannister"
+    )
+CREATE (child)-[:CHILD_OF]->(husband)
+CREATE (child)-[:CHILD_OF]->(wife);
+
+MATCH (husband:Person),(wife:Person),(child:Person)
+WHERE husband.name = "Kevan Lannister" AND
+    wife.name = "Dorna Swyft"
+CREATE (husband)-[:MARRIED_TO]->(wife);
+
+// Dorna Swyft
+
+// Lancel Lannister
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Lancel Lannister" AND
+    honor.title = "Ser"
+CREATE (person)-[:HOLDS_HONOR_OF {type:"Holy Order of the Warrior's Sons"}]->(honor);
+
+// Willem Lannister
+MATCH (person:Person),(twin:Person)
+WHERE person.name = "Willem Lannister" AND
+    twin.name = "Martyn Lannister"
+CREATE (person)-[:TWIN_TO]->(twin);
+
+// Martyn Lannister
+
+// Janei Lannister
+
+// Robert Baratheon
+
+
+// Genna Lannister
+MATCH (wife:Person), (husband:Person)
+WHERE wife.name = "Genna Lannister" AND
+    husband.name = "Emmon Frey"
+CREATE (wife)-[:MARRIED_TO]->(husband);
+
+MATCH (wife:Person), (husband:Person),(child:Person)
+WHERE wife.name = "Genna Lannister" AND
+    husband.name = "Emmon Frey" AND (
+        child.name = "Cleos Frey" OR
+        child.name = "Lyonel Frey" OR
+        child.name = "Tion Frey" OR
+        child.name = "Red Walder Frey"
+    )
+CREATE (child)-[:CHILD_OF]->(wife)
+CREATE (child)-[:CHILD_OF]->(husband);
+
+
+// Emmon Frey
+
+// Cleos Frey
+MATCH (father:Person),(child:Person)
+WHERE father.name = "Cleos Frey" AND (
+        child.name = "Tywin Frey" OR
+        child.name = "Willem Frey"
+    )
+CREATE (child)-[:CHILD_OF]->(husband);
+
+// Tywin Frey
+
+// Willem Frey
+
+// Lyonel Frey
+
+// Tion Frey
+
+// Red Walder Frey
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Red Walder Frey" AND
+    honor.title = "Page"
+CREATE (person)-[:HOLDS_HONOR_OF {location:"Casterly Rock"}]->(honor);
+
+// Tygett Lannister
+MATCH (wife:Person), (husband:Person)
+WHERE wife.name = "Darlessa Marbrand" AND
+    husband.name = "Tygett Lannister"
+CREATE (wife)-[:MARRIED_TO]->(husband);
+
+MATCH (father:Person),(mother:Person),(child:Person)
+WHERE father.name = "Tygett Lannister" AND
+        mother.name = "Darlessa Marbrand" AND
+        child.name = "Tyrek Lannister"
+CREATE (child)-[:CHILD_OF]->(father)
+CREATE (child)-[:CHILD_OF]->(mother);
+
+// Darlessa Marbrand
+
+// Tyrek Lannister
+
+MATCH (wife:Person), (husband:Person)
+WHERE wife.name = "Ermesande Hayford" AND
+    husband.name = "Tyrek Lannister"
+CREATE (wife)-[:MARRIED_TO]->(husband);
+
+// Ermesande Hayford
+
+// Gerion Lannister
+MATCH (father:Person),(child:Person)
+WHERE father.name = "Gerion Lannister" AND
+    child.name = "Joy Hill"
+CREATE (child)-[:CHILD_OF]->(father);
+
+// Mace Tyrell
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Mace Tyrell" AND
+    honor.title = "Hand of the King"
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+MATCH (person:Person),(group:Group)
+WHERE person.name = "Mace Tyrell" AND
+    group.name = "Small Council"
+CREATE (person)-[:MEMBER_OF {owner:"Tommen Baratheon"}]->(group);
+// TODO House Tyrell
+
+
+// Grand Maester Pycelle
+MATCH (person:Person),(group:Group)
+WHERE person.name = "Grand Maester Pycelle" AND
+    group.name = "Small Council"
+CREATE (person)-[:MEMBER_OF {owner:"Tommen Baratheon"}]->(group);
+
+// Paxter Redwyne
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Paxter Redwyne" AND (
+        honor.title = "Grand Admiral" OR
+        honor.title = "Master of ships"
+    )
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+MATCH (person:Person),(group:Group)
+WHERE person.name = "Paxter Redwyne" AND
+    group.name = "Small Council"
+CREATE (person)-[:MEMBER_OF {owner:"Tommen Baratheon"}]->(group);
+
+// Qyburn
+MATCH (person:Person),(group:Group)
+WHERE person.name = "Qyburn" AND
+    group.name = "Small Council"
+CREATE (person)-[:MEMBER_OF {owner:"Tommen Baratheon"}]->(group);
+
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Qyburn" AND
+    honor.title = "Master of whispers"
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Gyles Rosby
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Gyles Rosby" AND (
+        honor.title = "Lord treasurer" OR
+        honor.title = "Lord" OR
+        honor.title = "Master of coin"
+    )
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+MATCH (person:Person),(group:Group)
+WHERE person.name = "Gyles Rosby" AND
+    group.name = "Small Council"
+CREATE (person)-[:MEMBER_OF {owner:"Cersei Lannister"}]->(group);
+
+// Orton Merryweather
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Orton Merryweather" AND (
+        honor.title = "Justiciar" OR
+        honor.title = "Master of laws"
+    )
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+MATCH (person:Person),(place:Place)
+WHERE person.name = "Orton Merryweather" AND
+    place.name = "Longtable"
+CREATE (person)-[:FLED_TO]->(place);
+
+MATCH (person:Person),(group:Group)
+WHERE person.name = "Orton Merryweather" AND
+    group.name = "Small Council"
+CREATE (person)-[:MEMBER_OF {owner:"Cersei Lannister"}]->(group);
+
+// Aurane Waters
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Aurane Waters" AND (
+        honor.title = "Grand admiral" OR
+        honor.title = "Master of ships"
+    )
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+MATCH (person:Person),(group:Group)
+WHERE person.name = "Aurane Waters" AND
+    group.name = "Small Council"
+CREATE (person)-[:MEMBER_OF {owner:"Cersei Lannister"}]->(group);
+
+MATCH (person:Person),(place:Place)
+WHERE person.name = "Aurane Waters" AND
+    place.name = "Sea"
+CREATE (person)-[:FLED_TO]->(place);
+
+// Meryn Trant
+MATCH (person:Person),(group:Group)
+WHERE person.name = "Meryn Trant" AND
+    group.name = "Kingsguard"
+CREATE (person)-[:MEMBER_OF {owner:"Tommen Baratheon"}]->(group);
+
+// Boros Blount
+MATCH (person:Person),(group:Group)
+WHERE person.name = "Boros Blount" AND
+    group.name = "Kingsguard"
+CREATE (person)-[:MEMBER_OF {owner:"Tommen Baratheon"}]->(group);
+
+// Balon Swann
+MATCH (person:Person),(group:Group)
+WHERE person.name = "Balon Swann" AND
+    group.name = "Kingsguard"
+CREATE (person)-[:MEMBER_OF {owner:"Tommen Baratheon"}]->(group);
+
+// Osmund Kettleblack
+MATCH (person:Person),(group:Group)
+WHERE person.name = "Osmund Kettleblack" AND
+    group.name = "Kingsguard"
+CREATE (person)-[:MEMBER_OF {owner:"Tommen Baratheon"}]->(group);
+
+// Loras Tyrell
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Loras Tyrell" AND (
+        honor.title = "Ser" OR
+        honor.title = "Knight of Flowers"
+    )
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+MATCH (person:Person),(group:Group)
+WHERE person.name = "Loras Tyrell" AND
+    group.name = "Kingsguard"
+CREATE (person)-[:MEMBER_OF {owner:"Tommen Baratheon"}]->(group);
+
+// Arys Oakheart
+MATCH (person:Person),(group:Group)
+WHERE person.name = "Arys Oakheart" AND
+    group.name = "Kingsguard"
+CREATE (person)-[:MEMBER_OF {owner:"Tommen Baratheon"}]->(group);
+
+// Moon Boy
+MATCH (person:Person),(group:Group)
+WHERE person.name = "Moon Boy" AND
+    group.name = "Court"
+CREATE (person)-[:MEMBER_OF {owner:"Tommen Baratheon",job:"Royal Jester and Fool"}]->(group);
+
+// Pate
+MATCH (person:Person),(group:Group)
+WHERE person.name = "Pate" AND
+    group.name = "Court"
+CREATE (person)-[:MEMBER_OF {owner:"Tommen Baratheon",job:"Whipping Boy"}]->(group);
+
+// Ormond of Oldtown
+MATCH (person:Person),(group:Group)
+WHERE person.name = "Ormond of Oldtown" AND
+    group.name = "Court"
+CREATE (person)-[:MEMBER_OF {owner:"Tommen Baratheon",job:"Royal Harper and Bard"}]->(group);
+
+// Osfryd Kettleblack
+MATCH (person:Person),(group:Group)
+WHERE person.name = "Osfryd Kettleblack" AND
+    group.name = "Court"
+CREATE (person)-[:MEMBER_OF {owner:"Tommen Baratheon",job:"Captain in the City Watch"}]->(group);
+
+// Noho Dimittis
+MATCH (person:Person),(court:Group),(bank:Group)
+WHERE person.name = "Noho Dimittis" AND court.name = "Court" AND bank.name = "Iron Bank of Braavos"
+CREATE (person)-[:MEMBER_OF {owner:"Tommen Baratheon",job:"Envoy"}]->(court)
+CREATE (person)-[:MEMBER_OF]->(bank);
+
+// Gregor Clegane
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Gregor Clegane" AND (
+        honor.title = "Ser" OR
+        honor.title = "The Mountain that Rides"
+    )
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+MATCH (person:Person),(group:Group)
+WHERE person.name = "Gregor Clegane" AND
+    group.name = "Court"
+CREATE (person)-[:MEMBER_OF {owner:"Tommen Baratheon"}]->(group);
+
+// Rennifer Longwaters
+MATCH (person:Person),(group:Group)
+WHERE person.name = "Rennifer Longwaters" AND
+    group.name = "Court"
+CREATE (person)-[:MEMBER_OF {owner:"Tommen Baratheon",job:"Chief undergaoler of the Red Keep Dungeons"}]->(group);
+
+
+// Jalabhar Xho
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Jalabhar Xho" AND
+    honor.title = "Prince of the Red Flower Vale"
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+MATCH (person:Person),(place:Place)
+WHERE person.name = "Jalabhar Xho" AND
+    place.name = "Summer Isles"
+CREATE (person)-[:EXILED_FROM]->(place);
+
+// Mark Mullendore
+// Tallad the Tall
+// Lambert Turnberry
+// Bayard Norcross
+// Hugh Clifton
+// Horas Redwyne
+// Hobber Redwyne
+
+
+// TODO: Add the rest of Tommen's court
+
+// Osney Kettleblack
+MATCH (person:Person),(group:Group)
+WHERE person.name = "Osney Kettleblack" AND
+    group.name = "The Faith"
+CREATE (person)-[:CAPTIVE_OF]->(group);
+
+// The High Septon
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "The High Septon" AND (
+        honor.title = "Father of the Faithful" OR
+        honor.title = "Voice of the Seven on Earth"
+    )
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+MATCH (person:Person),(faith:Group)
+WHERE faith.name = "The Faith" AND (
+        person.name = "The High Septon" OR
+        person.name = "Septa Unella" OR
+        person.name = "Septa Moelle" OR
+        person.name = "Septa Scolera" OR
+        person.name = "Septon Torbert" OR
+        person.name = "Septon Raynard" OR
+        person.name = "Septon Luceon" OR
+        person.name = "Septon Ollidor" OR
+        person.name = "Septa Aglantine" OR
+        person.name = "Septa Helicent" OR
+        person.name = "Theodan Wells"
+    )
+CREATE (person)-[:MEMBER_OF]->(faith);
+
+// Theodan Wells
+
+// Chataya
+MATCH (person:Person), (place:Place)
+WHERE place.name = "King's Landing" AND (
+        person.name = "Chataya" OR
+        person.name = "Alayaya" OR
+        person.name = "Dancy" OR
+        person.name = "Marei" OR
+        person.name = "Tobho Mott"
+    )
+CREATE (person)-[:LIVES_IN]->(place);
+
+MATCH (person:Person), (child:Person)
+WHERE person.name = "Chataya" AND
+    child.name = "Alayaya"
+CREATE (child)-[:CHILD_OF]->(person);
+
+// Renfred Rykker
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Renfred Rykker" AND (
+        honor.title = "Ser" OR
+        honor.title = "Lord of Duskendale"
+    )
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Rufus Leek
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Rufus Leek" AND (
+        honor.title = "Ser" OR
+        honor.title = "Castellan of the Dun Fort"
+    )
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+// Tanda Stokeworth
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Tanda Stokeworth" AND
+    honor.title = "Lady of Stokeworth"
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+MATCH (person:Person), (child:Person)
+WHERE person.name = "Tanda Stokeworth" AND (
+        child.name = "Falyse Stokeworth" OR
+        child.name = "Lollys Stokeworth"
+    )
+CREATE (child)-[:CHILD_OF]->(person);
+
+// Falyse Stokeworth
+MATCH (wife:Person), (husband:Person)
+WHERE wife.name = "Falyse Stokeworth" AND
+    husband.name = "Balman Byrch"
+CREATE (wife)-[:MARRIED_TO]->(husband);
+
+// Balman Byrch
+
+// Lollys Stokeworth
+MATCH (person:Person),(honor:Honor)
+WHERE person.name = "Lollys Stokeworth" AND
+    honor.title = "Lady of Stokeworth"
+CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
+
+MATCH (wife:Person), (husband:Person)
+WHERE wife.name = "Lollys Stokeworth" AND
+    husband.name = "Bronn of the Blackwater"
+CREATE (wife)-[:MARRIED_TO]->(husband);
+
+MATCH (mother:Person), (child:Person)
+WHERE mother.name = "Lollys Stokeworth" AND
+        child.name = "Tyrion Tanner"
+CREATE (child)-[:CHILD_OF]->(mother);
+
+// Bronn of the Blackwater
+
+// Maester Frenken
+MATCH (person:Person),(place:Place)
+WHERE person.name = "Maester Frenken" AND
+    place.name = "Stokeworth"
+CREATE (person)-[:IN_SERVICE_AT]->(place);
+----
+
+//graph
