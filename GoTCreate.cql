@@ -1,4 +1,3 @@
-
 // CREATE houses
 CREATE (:House {name:"Baratheon"});
 CREATE (:House {name:"Tyrell"});
@@ -449,16 +448,12 @@ CREATE (spouse)-[:MARRIED_INTO_HOUSE]->(house);
 MATCH (house:House) WHERE house.name = "Arryn"
 OPTIONAL MATCH (person:Person) WHERE (
         person.name = "Robert Arryn" OR
-        person.name = "Jon Arryn" OR
-        person.name = "" OR
+        person.name = "Jon Arryn"
 
     )
 OPTIONAL MATCH (spouse:Person) WHERE (
         spouse.name = "Lysa Tully" OR
-        spouse.name = "Petyr Baelish" OR
-        spouse.name = "" OR
-
-
+        spouse.name = "Petyr Baelish" 
     )
 CREATE (person)-[:OF_HOUSE]->(house)
 CREATE (spouse)-[:MARRIED_INTO_HOUSE]->(house);
@@ -642,8 +637,7 @@ CREATE (person)-[:HOLDS_HONOR_OF]->(honor);
 MATCH (euron:Person),(banner:Person)
 WHERE euron.name = "Robert Arryn" AND (
     banner.name = "Yohn Royce" OR
-    banner.name = "Nestor Royce" OR
-    banner.name = "" OR
+    banner.name = "Nestor Royce"
 
   )
 CREATE (banner)-[:BANNERMAN_OF]->(euron);
